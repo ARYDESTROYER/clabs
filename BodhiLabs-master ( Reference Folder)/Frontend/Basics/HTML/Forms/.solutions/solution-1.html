@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Survey</title>
+  </head>
+  <body>
+    <h2>Survey Form</h2>
+    <form action="/submit_survey" method="post">
+      <!-- Email input -->
+      <p>Email:</p>
+      <input type="email" id="email" name="email" /><br /><br />
+
+      <!-- Radio buttons for age group -->
+      <p>Age Group:</p>
+      <input type="radio" id="age1" name="age_group" value="18-25" />18-25
+      <input type="radio" id="age2" name="age_group" value="26-35" />26-35
+      <input type="radio" id="age3" name="age_group" value="36-45" />36-45
+      <input type="radio" id="age4" name="age_group" value="46+" />46+
+
+      <!-- Checkbox for survey agreement -->
+      <p>I agree to participate in the survey:</p>
+      <input
+        type="checkbox"
+        id="agree"
+        name="agreement"
+        value="yes"
+      /><br /><br />
+
+      <!-- Hidden input to pass additional data -->
+      <input type="hidden" name="survey_id" value="survey123" />
+
+      <!-- File input for attaching a document -->
+      <p>Attach a document:</p>
+      <input
+        type="file"
+        id="fileAttach"
+        name="document_attachment"
+      /><br /><br />
+
+      <!-- Image button to submit the form (use submit-animate.gif) -->
+      <input
+        type="image"
+        src="submit-animate.gif"
+        alt="Submit Survey"
+        width="120"
+        height="60"
+      />
+    </form>
+  </body>
+</html>

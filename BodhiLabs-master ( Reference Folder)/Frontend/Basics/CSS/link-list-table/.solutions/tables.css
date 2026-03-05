@@ -1,0 +1,41 @@
+/* --- SOLUTIONS --- */
+
+/* DUTY #1: Basic Table Structure */
+.treasury-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #9c7a7a;
+}
+
+/* DUTY #2: Distinguish the Headings */
+th {
+    background-color: #d4b996;
+    text-transform: uppercase;
+    padding: 12px;
+}
+
+/* DUTY #3: Align the Numerals */
+.col-num {
+    text-align: right;
+}
+td {
+    padding: 12px;
+}
+
+/* DUTY #4: Shade Alternate Rows */
+tbody tr:nth-child(even) {
+    background-color: #e9e0c9;
+}
+
+/* DUTY #5: Add a Hover Effect */
+tbody tr:hover {
+    background-color: #c8bda4;
+}
+
+/* DUTY #6: Handle Empty Cells */
+.treasury-table {
+    /* This property can be added to the existing .treasury-table rule */
+    empty-cells: hide;
+}

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feedback Form</title>
+  </head>
+  <body>
+    <h2>Feedback Form</h2>
+    <form action="/submit_feedback" method="post">
+      <!-- Textarea for comments -->
+      <p>Comments:</p>
+      <textarea
+        id="comments"
+        name="comments"
+        rows="5"
+        cols="40"
+        placeholder="Enter your comments here..."
+      ></textarea
+      ><br /><br />
+
+      <!-- Dropdown select for feedback type (General, Product, Service, Other) -->
+      <p>Feedback Type:</p>
+      <select id="feedback_type" name="feedback_type">
+        <option value="general">General</option>
+        <option value="product">Product</option>
+        <option value="service">Service</option>
+        <option value="other">Other</option></select
+      ><br /><br />
+
+      <!-- Multiple select for product type (Laptop, Desktop (default), Tablet, Smartphone, Other) -->
+      <p>Product Type:</p>
+      <select id="product_type" name="product_type" multiple>
+        <option value="laptop">Laptop</option>
+        <option value="desktop" selected>Desktop</option>
+        <option value="tablet">Tablet</option>
+        <option value="smartphone">Smartphone</option>
+        <option value="other">Other</option>
+      </select>
+      <br /><br />
+
+      <!-- Button to reset the form -->
+      <button type="reset">Reset</button>
+
+      <!-- Button to submit the form -->
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>

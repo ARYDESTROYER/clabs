@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Account Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="instructions">
+            <h2>Instructions</h2>
+            <p>Complete the following BankAccount class methods:</p>
+            <ul>
+                <li>constructor(accountHolder, initialBalance) - Initialize the account</li>
+                <li>deposit(amount) - Handle deposits (return true if successful)</li>
+                <li>withdraw(amount) - Handle withdrawals (return true if successful)</li>
+                <li>checkBalance() - Return the current balance</li>
+            </ul>
+        </div>
+
+        <h1>Bank Account Manager</h1>
+
+        <div class="section" id="createSection">
+            <h2>Create Account</h2>
+            <input type="text" id="accountHolder" placeholder="Account Holder Name">
+            <input type="number" id="initialBalance" placeholder="Initial Balance">
+            <button id="createAccount" class="create-btn">Create Account</button>
+        </div>
+
+        <div class="section hidden" id="accountOperations">
+            <h2>Account Operations</h2>
+            <input type="number" id="amount" placeholder="Amount">
+            <div class="button-group">
+                <button id="deposit" class="deposit-btn">Deposit</button>
+                <button id="withdraw" class="withdraw-btn">Withdraw</button>
+            </div>
+            <button id="checkBalance" class="check-balance-btn">Check Balance</button>
+        </div>
+
+        <div class="section" id="status">
+            <div id="accountInfo">No account selected</div>
+            <div id="message"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

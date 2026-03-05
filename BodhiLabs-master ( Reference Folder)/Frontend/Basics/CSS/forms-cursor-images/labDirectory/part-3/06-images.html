@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Styled Images Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+
+        h1 {
+            color: #e41717;
+        }
+
+        .image-container {
+            display: inline-block;
+            width: 80%;
+            border: 5px solid #fff;
+            border-radius: 15px;
+            /* adds a smooth animation when a transformation (like scale) happens.*/
+            transition: transform 0.3s ease;
+        }
+
+        .image-container:hover {
+            /* applies a 2D transformation — in this case, a slight zoom in.*/
+            /* scale(1.05) increases the size of the element by 5%. */
+            transform: scale(1.10);
+        }
+
+        .image-container picture,
+        .image-container img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .image-caption {
+            background-color: #fff;
+            font-size: 18px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Styled Image</h1>
+
+    <div class="image-container">
+        <picture>
+            <source srcset="rose-large.jpg" media="(min-width: 800px)">
+            <source srcset="doggy.jpg" media="(min-width: 400px)">
+            <img src="./rose.jpg" alt="Dog or Rose">
+        </picture>
+        <div class="image-caption">Cute Things</div>
+    </div>
+
+</body>
+
+</html>

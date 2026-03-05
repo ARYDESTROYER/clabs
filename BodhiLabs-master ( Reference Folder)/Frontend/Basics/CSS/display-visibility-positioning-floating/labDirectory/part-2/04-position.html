@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>CSS Positioning with Text Example</title>
+    <style>
+        .container {
+            position: relative;
+            height: 600px;
+            margin: 20px;
+            border: 2px solid #ccc;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .box {
+            width: 300px;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .static-box {
+            background-color: #4CAF50;
+            position: static;
+        }
+
+        .relative-box {
+            background-color: #2196F3;
+            position: relative;
+            top: 30px;
+            left: 30px;
+        }
+
+        .absolute-box {
+            background-color: #FF9800;
+            position: absolute;
+            top: 200px;
+            left: 400px;
+            width: 200px;
+        }
+
+        .fixed-box {
+            background-color: #F44336;
+            position: fixed;
+            top: 400px;
+            right: 40px;
+            width: 200px;
+        }
+
+        .sticky-box {
+            background-color: #9C27B0;
+            position: sticky;
+            top: 0;
+            width: 95%;
+        }
+
+        .filler {
+            height: 1000px;
+            background-color: #e1e1e1;
+            padding: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Positioning Examples</h1>
+        <div class="box sticky-box">
+            <p>This is a sticky box. It sticks to the top of the container when scrolling.</p>
+        </div>
+
+        <div class="box static-box">
+            <p>This is a static box. It stays in its normal position in the document flow.</p>
+        </div>
+        <div class="box relative-box">
+            <p>This is a relative box. It is offset by 30px from its original position.</p>
+        </div>
+        <div class="box absolute-box">
+            <p>This is an absolute box. It is positioned 100px from the top and 400px from the left of the container.
+            </p>
+        </div>
+        <div class="box fixed-box">
+            <p>This is a fixed box. It remains 400px from the top and 40px from the right of the viewport, even when
+                scrolling.</p>
+        </div>
+    </div>
+    <div class="filler">
+        <p>Scroll down to see the fixed and sticky boxes in action.</p>
+    </div>
+</body>
+
+</html>

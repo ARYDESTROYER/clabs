@@ -1,0 +1,10 @@
+192.168.1.5:alice:login
+192.168.1.6:bob:logout
+192.168.1.5:alice:upload
+10.0.0.1:admin:restart
+192.168.1.5:charlie:login
+172.16.0.5:dave:download
+192.168.1.5:alice:logout
+192.168.1.8:eve:login
+192.168.1.5:frank:delete
+10.0.0.2:admin:config

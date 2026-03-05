@@ -1,0 +1,68 @@
+/* Basic Styling - Don't change this! */
+body {
+    background-color: #f5f5f5;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.gallery-container {
+    text-align: center;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    max-width: 900px;
+}
+
+/* --- YOUR STYLING TASKS START HERE --- */
+
+/* TASK #1: Ensure Responsive Sizing
+   The artwork must never overflow its container.
+   - Select the image itself and set its 'max-width' to '100%'.
+   - Set its 'height' to 'auto' to maintain its aspect ratio.
+*/
+.gallery-image {
+    /* Your code here */
+}
+
+
+/* TASK #2: Frame the Artwork
+   Every piece of art needs a frame.
+   - Give the image a solid '5px' 'border' with a dark grey color ('#444').
+   - Add a subtle 'box-shadow' to make it pop from the wall.
+*/
+.gallery-image {
+    /* Add more properties to the rule above */
+}
+
+
+/* TASK #3: Create a "Matte"
+   The <picture> element acts as a container. We can style it to look like
+   the matte board behind the art.
+   - Give the '.art-piece' a 'padding' of '20px'.
+   - Set its 'background-color' to a light grey ('#e0e0e0').
+   - Make it display as an 'inline-block' to wrap tightly around the image.
+*/
+.art-piece {
+    /* Your code here */
+}
+
+
+/* TASK #4: Add an Interactive Hover Effect
+   When a visitor shows interest, the art should react.
+   - When a user hovers over the '.art-piece', make the '.gallery-image' inside it
+     slightly less opaque (e.g., 'opacity: 0.8;').
+   - Add a smooth 'transition' to the '.gallery-image' for a professional effect.
+*/
+.gallery-image {
+    /* Add the transition property here */
+}
+
+.art-piece:hover .gallery-image {
+    /* Your code for the hover effect here */
+}

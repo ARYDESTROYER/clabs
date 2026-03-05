@@ -1,0 +1,36 @@
+/* --- SOLUTIONS --- */
+
+/* TASK #1: The Draggable Artifact */
+#draggable-gem {
+    cursor: move;
+}
+
+/* TASK #2: The Un-openable Casket */
+#locked-casket {
+    cursor: not-allowed;
+}
+
+/* TASK #3: The Ancient Scroll */
+#help-scroll {
+    cursor: help;
+}
+
+/* TASK #4: The Inscription Plaque */
+#text-plaque {
+    cursor: text;
+}
+
+/* TASK #5: The Slow Mechanism */
+#activate-mechanism {
+    cursor: wait;
+}
+
+/* TASK #6: The Targeting Grid */
+#map-grid {
+    cursor: crosshair;
+}
+
+/* TASK #7: The Clickable Button */
+button.artifact {
+    cursor: pointer;
+}

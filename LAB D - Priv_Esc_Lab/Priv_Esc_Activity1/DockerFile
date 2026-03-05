@@ -1,0 +1,39 @@
+FROM sarus.bodhi.cse.iitb.ac.in/35/docker-combined5:latest
+
+# --- FIX START ---
+# The base image has a broken PPA source. We must remove it before updating.
+RUN rm -f /etc/apt/sources.list.d/ondrej*.list
+# --- FIX END ---
+
+# Install sudo (needed only during init)
+RUN apt-get update && apt-get install -y sudo
+
+# Create student user
+RUN useradd -m -s /bin/bash student
+
+# TEMPORARY sudo access (will be revoked in init script)
+RUN echo "student ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/student_temp && \
+    chmod 440 /etc/sudoers.d/student_temp
+
+# Create required directories
+RUN mkdir -p /home/labDirectory
+RUN mkdir -p /home/.evaluationScripts
+
+# Environment variables
+ENV INSTRUCTOR_SCRIPTS="/home/.evaluationScripts"
+ENV LAB_DIRECTORY="/home/labDirectory"
+ENV TERM=xterm-256color
+
+# Permissions:
+# - student can read instructor scripts
+# - student CANNOT modify them
+RUN chown -R root:root /home/.evaluationScripts && \
+    chmod -R 755 /home/.evaluationScripts && \
+    chown -R student:student /home/labDirectory
+
+# Default user for CLab terminal
+USER student
+WORKDIR /home/labDirectory
+
+# Container lifecycle handled safely
+CMD ["/bin/bash", "-c", "bash /home/.evaluationScripts/activityInitiator/initactivity.sh; while :; do sleep 10; done"]

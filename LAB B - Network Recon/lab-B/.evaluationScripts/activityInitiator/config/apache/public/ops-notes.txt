@@ -1,0 +1,12 @@
+OPS NOTE - Device Gateway
+==========================
+
+Background:
+- This gateway fronts multiple internal services.
+- WAF policies block direct /admin* access from external clients.
+- ACLs allow /internal/* only from internal ranges (10.0.0.0/8).
+
+Recent Change:
+- Legacy upstream still forwards X-Original-URL when present.
+- Ensure upstream routing headers are sanitized at the edge.
+

@@ -1,0 +1,66 @@
+/* Basic Styling - Don't change this! */
+body {
+    background-color: #2c3e50;
+    font-family: 'Garamond', 'Times New Roman', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+}
+
+.recipe-card {
+    background-image: url('paper.jpg');
+    background-size: cover;
+    width: 600px;
+    padding: 40px;
+    border: 8px ridge #8B4513;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #5D4037;
+    text-shadow: 1px 1px #D7CCC8;
+}
+
+ul, ol {
+    padding-left: 40px;
+    line-height: 1.8;
+}
+
+/* --- YOUR ALCHEMY BEGINS HERE --- */
+
+/* STEP #1: Change the Ingredient Markers
+   The default 'disc' bullets are too plain. Change the markers for the
+   ingredients list to hollow circles.
+*/
+.ingredients-list {
+    /* Your code here */
+}
+
+/* STEP #2: Adjust Marker Position
+   The ingredient markers are currently outside the text flow.
+   Bring them inside the list item's content box so the text of long
+   items wraps underneath the marker.
+*/
+.ingredients-list {
+    /* Add another property to this same rule */
+}
+
+/* STEP #3: Number the Instructions
+   Simple numbers are for cookbooks, not spellbooks! Change the numbering
+   for the instructions list to use uppercase Roman numerals.
+*/
+.instructions-list {
+    /* Your code here */
+}
+
+/* STEP #4: Use a Mystical Sigil
+   The secret ingredient requires a special marker. Use a custom image as
+   its list marker. Use this image URL: star.png (a small star)
+*/
+.secret-ingredient {
+    /* Your code here */
+}

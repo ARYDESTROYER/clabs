@@ -1,0 +1,102 @@
+/* Basic Styling - Don't change this! */
+body {
+    background-color: #3d3d3d;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.exhibit-container {
+    background-color: #5a5a5a;
+    padding: 40px;
+    border-radius: 10px;
+    border: 2px solid #a0a0a0;
+    width: 80%;
+    max-width: 800px;
+}
+
+.artifact-display {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.artifact {
+    padding: 30px;
+    border: 2px solid #a0a0a0;
+    border-radius: 5px;
+    background-color: #4a4a4a;
+    min-width: 150px;
+    font-size: 1em;
+    color: #f0f0f0;
+}
+
+button.artifact {
+    font-family: inherit;
+}
+
+/* --- YOUR CURSOR STYLES GO BELOW --- */
+
+/* TASK #1: The Draggable Artifact
+   This gemstone can be moved around the screen.
+   Change the cursor to indicate it's a movable item.
+*/
+#draggable-gem {
+    /* Your code here */
+}
+
+/* TASK #2: The Un-openable Casket
+   This ancient casket is locked and cannot be opened.
+   Change the cursor to show that this action is not allowed.
+*/
+#locked-casket {
+    /* Your code here */
+}
+
+/* TASK #3: The Ancient Scroll
+   This scroll contains helpful information for visitors.
+   Change the cursor to a 'help' icon.
+*/
+#help-scroll {
+    /* Your code here */
+}
+
+/* TASK #4: The Inscription Plaque
+   The text on this plaque can be selected and copied.
+   Change the cursor to the text selection (I-beam) icon.
+*/
+#text-plaque {
+    /* Your code here */
+}
+
+/* TASK #5: The Slow Mechanism
+   Clicking this button activates a slow, ancient machine.
+   While it's "working", you want the cursor to indicate that the user should wait.
+   (Note: For this exercise, we'll apply the wait cursor on hover).
+*/
+#activate-mechanism {
+    /* Your code here */
+}
+
+/* TASK #6: The Targeting Grid
+   This map grid is used for precise location marking.
+   Change the cursor to a crosshair.
+*/
+#map-grid {
+    /* Your code here */
+}
+
+/* TASK #7: The Clickable Button
+   The mechanism button is a clickable element. In addition to the wait cursor,
+   it should also have a pointer to show it's interactive.
+   (Let's add the pointer on the general artifact button style).
+*/
+button.artifact {
+    /* Your code here */
+}

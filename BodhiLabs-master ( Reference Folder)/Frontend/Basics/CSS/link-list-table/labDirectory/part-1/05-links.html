@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Link Styling Example</title>
+    <style>
+        /* Normal (Unvisited) Link */
+        a {
+            color: blue;
+            /* Color for unvisited links */
+            text-decoration: none;
+            /* Remove underline */  
+            font-weight: normal;
+            /* Normal font weight */
+        }
+
+        /* Visited Link */
+        a:visited {
+            color: purple;
+            /* Color for visited links */
+        }
+
+        /* Hover State */
+        a:hover {
+            color: red;
+            /* Color when the mouse hovers over the link */
+            text-decoration: underline;
+            /* Underline on hover */
+        }
+
+        /* Active State (when clicked) */
+        a:active {
+            color: orange;
+            /* Color when the link is actively clicked */
+            text-decoration: none;
+            /* Remove underline on active state */
+            background-color: lightgrey;
+            /* Background color to make active state visible */
+        }
+
+        /* Focus State (when the link is focused) */
+        a:focus {
+            color: green;
+            /* Color when the link is focused */
+            outline: 2px solid yellow;
+            /* Outline to indicate focus */
+            text-decoration: underline;
+            /* Underline when focused */
+        }
+    </style>
+</head>
+
+<body>
+
+    <p><a href="https://example.com">Normal Link (Click me to visit)</a></p>
+    <p><a href="https://example.com">Visit This Link and Check Visited State</a></p>
+    <p><a href="https://example.com">Hover Over This Link</a></p>
+    <p><a href="https://example.com">Click This Link and Keep Button Pressed</a></p>
+    <p><a href="https://example.com">Focus this Link by Clicking on Tab</a></p>
+</body>
+
+</html>

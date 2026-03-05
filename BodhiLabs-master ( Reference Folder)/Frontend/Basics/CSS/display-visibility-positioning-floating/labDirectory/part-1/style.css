@@ -1,0 +1,58 @@
+/* Basic Styling - Don't change this! */
+body {
+    font-family: sans-serif;
+    text-align: center;
+    background-color: #f0f0f0;
+}
+
+.stage {
+    border: 3px dotted #888;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 600px;
+    background-color: #fff;
+}
+
+.box {
+    background-color: #e74c3c;
+    color: white;
+    border: 2px solid #c0392b;
+    padding: 20px;
+    margin: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+/* --- YOUR MAGIC SPELLS GO BELOW --- */
+
+/* TRICK #1: The Vanishing Act!
+    Make Box 2 (the one with the rabbit 🐇) disappear completely.
+    It should not take up any space, and Box 3 should move up to take its place.
+*/
+
+#box2 {
+    /* Your code here */
+}
+
+
+/* TRICK #2: The Invisible Box!
+    Make Box 1 (the one with the hat 🎩) invisible.
+    It should disappear from view, but still take up space on the page. 
+    Box 2 should NOT move up.
+*/
+
+#box1 {
+    /* Your code here */
+}
+
+
+/* TRICK #3: Line 'Em Up!
+    By default, the boxes are stacked. Change the display property of ALL boxes
+    so they appear side-by-side in a single line, like inline elements,
+    but still keep their block-like padding and margins.
+*/
+
+.box {
+    /* Your code here */
+    /* Note: This will override the initial .box style. That's okay! */
+}

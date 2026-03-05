@@ -1,0 +1,37 @@
+{
+    "section": {
+        "display": "flex",
+        "align-items": "center"
+    },
+    "header": {
+        "position": "fixed",
+        "display": "flex",
+        "align-items": "center",
+        "justify-content": "center",
+        "z-index": "1000"
+    },
+    "nav ul": {
+        "display": "flex"
+    },
+    ".float-img": {
+        "margin-top": "2rem"
+    },
+    "table": {
+        "width": "70%",
+        "background": "#1e272e",
+        "color": "#f1f2f6"
+    },
+    "form": {
+        "margin-top": "2rem",
+        "display": "flex"
+    },
+    "form button": {
+        "cursor": "pointer"
+    },
+    "footer": {
+        "position": "fixed",
+        "display": "flex",
+        "z-index": "1000"
+    }
+}
+

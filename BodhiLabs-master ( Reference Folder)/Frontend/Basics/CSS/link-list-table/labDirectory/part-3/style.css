@@ -1,0 +1,93 @@
+/* Basic Styling - Don't change this! */
+body {
+    font-family: 'Garamond', serif;
+    background-color: #f2e8c9; /* Parchment color */
+    color: #4a2c2a; /* Dark brown */
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+}
+
+.ledger-container {
+    width: 80%;
+    max-width: 900px;
+}
+
+caption {
+    font-size: 1.8em;
+    font-weight: bold;
+    padding: 15px;
+    color: #6a4a4a;
+    caption-side: top;
+}
+
+/* --- YOUR SCRIBE DUTIES START HERE --- */
+
+/* DUTY #1: Basic Table Structure
+   The default table borders are separated and messy.
+   - Make the table take up 100% of its container's width.
+   - Collapse the borders of the table into a single line.
+   - Add a simple '1px solid #9c7a7a' border to all table headers (th) and data cells (td).
+*/
+.treasury-table {
+    /* Your code for width and border-collapse here */
+}
+
+th, td {
+    /* Your code for the border here */
+}
+
+
+/* DUTY #2: Distinguish the Headings
+   The table headers should look official.
+   - Give the 'th' elements a background color of '#d4b996'.
+   - Transform the text to be 'uppercase'.
+   - Add some 'padding' of '12px'.
+*/
+th {
+    /* Your code here */
+}
+
+
+/* DUTY #3: Align the Numerals
+   For clarity, all numbers should be right-aligned.
+   - Target the cells with the 'col-num' class and align their text to the 'right'.
+   - Add '12px' of padding to all 'td' elements as well for good spacing.
+*/
+.col-num {
+    /* Your code for text-align here */
+}
+
+td {
+    /* Your code for padding here */
+}
+
+
+/* DUTY #4: Shade Alternate Rows
+   To make the ledger easier to read, add a subtle background color
+   to every 'even' row within the table body (tbody). A good color is '#e9e0c9'.
+   (Hint: Use the ':nth-child(even)' pseudo-class on the 'tr' element)
+*/
+tbody tr:nth-child(even) {
+    /* Your code here */
+}
+
+
+/* DUTY #5: Add a Hover Effect
+   When the Royal Accountant hovers over a row, it should be highlighted.
+   - Add a hover effect to all rows ('tr') in the 'tbody'.
+   - On hover, change the background color to '#c8bda4'.
+*/
+tbody tr:hover {
+    /* Your code here */
+}
+
+
+/* DUTY #6: Handle Empty Cells
+   There's an empty cell in the ledger that looks untidy with its border.
+   - Set the table to 'hide' the borders of any empty cells.
+   (Hint: This property goes on the main table element.)
+*/
+.treasury-table {
+    /* Add the empty-cells property here */
+}

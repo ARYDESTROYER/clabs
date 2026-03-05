@@ -1,0 +1,32 @@
+$TTL    604800
+@       IN      SOA     ns1.corp.internal. admin.corp.internal. (
+                        2024020201  ; Serial
+                        604800      ; Refresh
+                        86400       ; Retry
+                        2419200     ; Expire
+                        604800 )    ; Negative Cache TTL
+;
+; Name servers
+@       IN      NS      ns1.corp.internal.
+
+; ── Public-facing hosts ──
+ns1             IN      A       127.0.0.1
+www             IN      A       192.168.1.10
+mail            IN      A       192.168.1.20
+@               IN      MX  10  mail.corp.internal.
+vpn             IN      A       192.168.1.30
+ftp             IN      A       192.168.1.40
+
+; ── Internal / Sensitive hosts ──
+intranet        IN      A       10.10.1.50
+hr-portal       IN      A       10.10.1.60
+payroll-db      IN      A       10.10.2.100
+admin-panel     IN      A       10.10.2.200
+backup-nas      IN      A       10.10.3.50
+legacy-app      IN      A       10.10.4.10
+dev-staging     IN      CNAME   payroll-db.corp.internal.
+
+; ── TXT records (mix of real and flag) ──
+_spf            IN      TXT     "v=spf1 include:mail.corp.internal ~all"
+_dmarc          IN      TXT     "v=DMARC1; p=reject"
+_credentials    IN      TXT     "IITB{4xfr_3num3r4t10n_m4st3r}"

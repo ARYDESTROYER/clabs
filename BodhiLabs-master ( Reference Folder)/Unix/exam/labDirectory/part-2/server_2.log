@@ -1,0 +1,25 @@
+Line 1: This is a sample log file line.
+Line 2: Another log line with some data.
+Line 3: Error: Something went wrong.
+Line 4: Info: System is running smoothly.
+Line 5: Debug: Variable x = 10.
+Line 6: Warning: Disk space low.
+Line 7: User logged in.
+Line 8: User logged out.
+Line 9: Database connection established.
+Line 10: Query executed successfully.
+Line 11: This is the middle of the file.
+Line 12: More random log data.
+Line 13: Even more data.
+Line 14: Still logging.
+Line 15: Almost done.
+Line 16: Line 16 content.
+Line 17: Line 17 content.
+Line 18: Line 18 content.
+Line 19: Line 19 content.
+Line 20: Line 20 content.
+Line 21: Line 21 content.
+Line 22: Line 22 content.
+Line 23: Line 23 content.
+Line 24: Line 24 content.
+Line 25: Line 25 content.

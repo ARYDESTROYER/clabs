@@ -1,0 +1,3 @@
+ls -lRaS
+ls -lR | grep ^- | sort -k 5 -nr | head -n 1 | awk '{print $NF}'
+pexels-pixabay-247599.jpg

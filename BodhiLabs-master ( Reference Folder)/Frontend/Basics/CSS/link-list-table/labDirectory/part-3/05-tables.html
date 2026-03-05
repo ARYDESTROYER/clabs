@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Table Styling Showcase</title>
+  <style>
+    table {
+      width: 90%;
+      margin: 20px auto;
+      border: 2px solid #380bce;
+    }
+
+    th,
+    td {
+      padding: 8px;
+      border: 1px solid #999;
+    }
+
+    th {
+      font-weight: bold;
+      text-transform: uppercase;
+      background-color: #11c845;
+      text-align: center;
+      /* Centered headings */
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .td-right {
+      text-align: right;
+      /* Only for data cells */
+    }
+
+    .collapsed-table {
+      border-collapse: collapse;
+      empty-cells: show;
+    }
+
+    .separate-table {
+      border-collapse: separate;
+      border-spacing: 15px;
+      empty-cells: hide;
+    }
+
+    caption {
+      caption-side: top;
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <table class="collapsed-table">
+    <caption>Collapsed Table — Empty Cells Shown</caption>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Subject</th>
+        <th>Marks</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Aarav</td>
+        <td>Math</td>
+        <td class="td-right">82</td>
+        <td class="td-right">100</td>
+      </tr>
+      <tr>
+        <td>Priya</td>
+        <td>Science</td>
+        <td class="td-right"></td>
+        <td class="td-right">100</td>
+      </tr>
+      <tr>
+        <td>Riya</td>
+        <td>History</td>
+        <td class="td-right">70</td>
+        <td class="td-right">100</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="separate-table">
+    <caption>Separate Table — Empty Cells Hidden</caption>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Stock</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Notebook</td>
+        <td>200 pages, ruled</td>
+        <td class="td-right">55</td>
+        <td class="td-right">300</td>
+      </tr>
+      <tr>
+        <td>Pen</td>
+        <td></td>
+        <td class="td-right">10</td>
+        <td class="td-right">1000</td>
+      </tr>
+      <tr>
+        <td>Geometry Box</td>
+        <td>Metal case with tools</td>
+        <td class="td-right">120</td>
+        <td class="td-right">120</td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+
+</html>

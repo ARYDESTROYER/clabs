@@ -1,0 +1,7 @@
+touch file1.txt file2.txt file3.txt
+echo "Hello from file 1" > file1.txt
+echo -e "Hello\nfrom file 2" > file2.txt
+echo "Hello from file 3" > file3.txt
+cat -s file1.txt file2.txt file3.txt file4.txt > combined.txt
+touch -m -d "2024-06-15 14:00:00" combined.txt
+touch -a -d "2024-06-15 10:00:00" combined.txt

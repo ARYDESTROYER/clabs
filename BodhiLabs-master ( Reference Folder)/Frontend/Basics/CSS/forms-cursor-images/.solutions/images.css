@@ -1,0 +1,27 @@
+/* --- SOLUTIONS --- */
+
+/* TASK #1 & #2: Responsive Sizing and Framing */
+.gallery-image {
+    max-width: 100%;
+    height: auto;
+    border: 5px solid #444;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    display: block; /* Helps remove extra space below the image */
+}
+
+/* TASK #3: Create a "Matte" */
+.art-piece {
+    padding: 20px;
+    background-color: #e0e0e0;
+    display: inline-block;
+}
+
+/* TASK #4: Add an Interactive Hover Effect */
+.gallery-image {
+    /* Add transition to the existing rule */
+    transition: opacity 0.3s ease;
+}
+
+.art-piece:hover .gallery-image {
+    opacity: 0.8;
+}

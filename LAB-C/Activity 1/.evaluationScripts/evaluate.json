@@ -1,0 +1,18 @@
+{
+  "data": [
+    {
+      "testid": 1,
+      "status": "success",
+      "score": 10,
+      "maximum marks": 10,
+      "message": "Correct! You found the hidden flag from the zone transfer."
+    },
+    {
+      "testid": 2,
+      "status": "success",
+      "score": 10,
+      "maximum marks": 10,
+      "message": "Correct! AXFR (Authoritative Zone Transfer) dumps all records."
+    }
+  ]
+}

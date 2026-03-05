@@ -1,0 +1,20 @@
+$TTL    604800
+@       IN      SOA     ns1.demo.lab.local. admin.demo.lab.local. (
+                        2024020101  ; Serial
+                        604800      ; Refresh
+                        86400       ; Retry
+                        2419200     ; Expire
+                        604800 )    ; Negative Cache TTL
+;
+; Name servers
+@       IN      NS      ns1.demo.lab.local.
+
+; Host records
+ns1             IN      A       127.0.0.1
+www             IN      A       10.0.1.10
+mail            IN      A       10.0.1.20
+ftp             IN      A       10.0.1.30
+internal-db     IN      A       10.0.2.100
+
+; The hidden flag (sensitive data exposed by zone transfer!)
+_flag           IN      TXT     "IITB{w3lc0m3_t0_dn5_z0n3s}"

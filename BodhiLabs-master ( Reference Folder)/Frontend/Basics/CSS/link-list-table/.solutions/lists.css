@@ -1,0 +1,17 @@
+/* --- SOLUTIONS --- */
+
+/* STEP #1 & #2: Ingredient Markers and Position */
+.ingredients-list {
+    list-style-type: circle;
+    list-style-position: inside;
+}
+
+/* STEP #3: Number the Instructions */
+.instructions-list {
+    list-style-type: upper-roman;
+}
+
+/* STEP #4: Use a Mystical Sigil */
+.secret-ingredient {
+    list-style-image: url('star.png');
+}

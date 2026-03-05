@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Float, Clear, and Text Wrapping Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      line-height: 1.6;
+    }
+
+    .float-left {
+      float: left;
+      height: 100px;
+      margin: 10px;
+      background-color: #FF9800;
+      padding: 10px;
+      box-sizing: border-box;
+      color: white;
+    }
+
+    .float-right {
+      float: right;
+      height: 100px;
+      margin: 10px;
+      background-color: #2196F3;
+      padding: 10px;
+      box-sizing: border-box;
+      color: white;
+    }
+
+    p.clear {
+      clear: right;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Float, Clear, and Text Wrapping</h1>
+
+  <div class="float-left">Stray Dog: Raju</div>
+  <p>
+    Meet Raju, a 7-year-old stray dog who spends his days outside the local bakery.
+    Though he has no permanent home, Raju is well-known in the neighborhood for his loyalty and playful nature.
+    Children often stop by to feed him biscuits, and he greets them with a wagging tail.
+  </p>
+
+  <div class="float-right">Pet Dog: Bruno</div>
+  <p>
+    Bruno, on the other hand, lives comfortably in an apartment just across the street.
+    While he enjoys daily walks and regular meals, his favorite part of the day is meeting Raju.
+  </p>
+
+  <p class="clear">
+    This paragraph appears below the floated elements. Despite their contrasting lives,
+    Bruno and Raju's bond shows that companionship doesn’t depend on background—it grows from kindness and plain puppy
+    love.
+  </p>
+
+</body>
+
+</html>

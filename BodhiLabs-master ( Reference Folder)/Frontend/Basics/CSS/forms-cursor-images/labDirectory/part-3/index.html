@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Digital Art Gallery</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="gallery-container">
+        <h1>Exhibit A: "CSS Sunset"</h1>
+        <p>This digital artwork changes its composition based on your viewing device.</p>
+        
+        <picture class="art-piece">
+            <!-- Source for screens wider than 600px (desktop) -->
+            <source media="(min-width: 601px)" srcset="landscape.svg">
+            
+            <!-- Source for screens 600px or less (mobile) -->
+            <source media="(max-width: 600px)" srcset="portrait.svg">
+            
+            <!-- Fallback image for older browsers -->
+            <img src="landscape.svg" alt="Digital artwork titled CSS Sunset" class="gallery-image">
+        </picture>
+    </div>
+</body>
+</html>

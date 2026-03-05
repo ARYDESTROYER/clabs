@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>List Style Properties</title>
+    <style>
+        ul.custom-image {
+            list-style-image: url('./button.jpeg');
+            /* Replace with an actual image URL */
+        }
+
+        ul.circle {
+            list-style-type: circle;
+            list-style-image: none;
+            /* Reset the inherited image */
+        }
+
+        ul.square {
+            list-style-type: square;
+        }
+
+        ul.upper-roman {
+            list-style-type: upper-roman;
+        }
+
+        ul.lower-alpha {
+            list-style-type: lower-alpha;
+        }
+
+        ul.inside {
+            list-style-position: inside;
+        }
+
+        ul.outside {
+            list-style-position: outside;
+        }
+
+        .nested-list {
+            margin-left: 1.5em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>List Style Properties</h1>
+
+    <h2>List Style Type</h2>
+    <ul class="circle">
+        <li>Circle bullet
+            <ul class="square nested-list">
+                <li>Nested square bullet</li>
+                <li>Another nested square</li>
+            </ul>
+        </li>
+        <li>Circle bullet 2</li>
+    </ul>
+
+    <ul class="upper-roman">
+        <li>Roman numeral I
+            <ul class="lower-alpha nested-list">
+                <li>Lower-alpha sub-item</li>
+                <li>Another sub-item</li>
+            </ul>
+        </li>
+        <li>Roman numeral II</li>
+    </ul>
+
+    <h2>List Style Image</h2>
+    <ul class="custom-image">
+        <li>Image bullet
+            <ul class="circle nested-list">
+                <li>Nested circle</li>
+            </ul>
+        </li>
+        <li>Image bullet 2</li>
+    </ul>
+
+    <h2>List Style Position</h2>
+    <p>Outside (default):</p>
+    <ul class="outside">
+        <li>Bullet is outside. Wrapped text starts below. Adding more text to showcase how the wrap around happens here.
+        </li>
+    </ul>
+
+    <p>Inside:</p>
+    <ul class="inside">
+        <li>Bullet is inside. Wrapped text aligns under the bullet. Adding more text to showcase how the wrap around
+            happens here.</li>
+
+    </ul>
+
+</body>
+
+</html>

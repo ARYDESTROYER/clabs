@@ -1,0 +1,78 @@
+/* --- Basic Styling - Don't change this! --- */
+body {
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #f4f1ea;
+    color: #333;
+    line-height: 1.6;
+}
+
+.newspaper {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 30px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.story h1 {
+    font-size: 2.5em;
+    text-align: center;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.main-image {
+    border: 3px solid #333;
+    padding: 5px;
+    margin: 0 15px 10px 0;
+}
+
+.pull-quote {
+    font-size: 1.2em;
+    font-style: italic;
+    border-left: 4px solid #ccc;
+    padding-left: 15px;
+    margin: 10px 0 10px 20px;
+    color: #555;
+}
+
+.article-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #ccc;
+    text-align: center;
+    font-size: 0.9em;
+    color: #777;
+}
+
+/* --- YOUR LAYOUT TASKS START HERE --- */
+
+/* TASK #1: Float the Main Image
+    Take the main image and float it to the left so that the article text
+    wraps around its right side.
+*/
+.main-image {
+    /* Your code here */
+}
+
+
+/* TASK #2: Float the Pull Quote
+    Make the pull-quote stand out by floating it to the right side of the
+    article. Give it a width of 250px so it forms a neat column.
+*/
+.pull-quote {
+    /* Your code here */
+}
+
+
+/* TASK #3: Clear the Footer
+    The footer is currently pushed to the side by the floated pull-quote.
+    It should appear *after* all the floated content.
+    Use the 'clear' property to ensure it moves down until it is clear of
+    floats on BOTH sides.
+*/
+.article-footer {
+    /* Your code here */
+}

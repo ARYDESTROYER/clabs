@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Survey Form</title>
+  </head>
+  <body>
+    <h2>Product Preference Survey</h2>
+    <form action="/submit_survey" method="post">
+      <!-- Section for Personal Information -->
+      <!-- Replace the <tagset> tag with the appropriate tag to group the fields together. -->
+      <tagset>
+        <legend>Personal Information</legend>
+
+        <!-- Full Name Input -->
+        <label for="full_name">Full Name:</label>
+        <!-- Text input for the user's full name, allows only letters and spaces -->
+        <!-- Set allowed pattern to [A-Za-z\s]+ and make it required -->
+        <input
+          type="text"
+          id="full_name"
+          name="full_name"
+          title="Name should only contain letters and spaces"
+        /><br /><br />
+
+        <!-- Email Input -->
+        <label for="email">Email:</label>
+        <!-- Email input for user's email address, must be in valid email format -->
+        <!-- Set type to email and make it required -->
+        <input id="email" name="email" /><br /><br />
+
+        <!-- Date of Birth Input -->
+        <label for="dob">Date of Birth:</label>
+        <!-- Date input for user's date of birth, ensuring the user is at least 18 years old -->
+        <!-- Set appropriate inpute type and max date to 2006-12-31 and make it required -->
+        <input id="dob" name="dob" /><br /><br />
+      </tagset>
+
+      <!-- Section for Car Preferences -->
+      <!-- Replace the <tagset> tag with the appropriate tag to group the fields together. -->
+      <tagset>
+        <legend>Car Preferences</legend>
+
+        <!-- Preferred Car Color Input -->
+        <label for="car_color">Preferred Car Color:</label>
+        <!-- Color input for selecting the preferred car color -->
+        <!-- Set appropriate input type and make it required -->
+        <input id="car_color" name="car_color" /><br /><br />
+
+        <!-- Favorite Car Model Input -->
+        <label for="car_model">Favorite Car Model:</label>
+        <!-- Dropdown select for choosing the favorite car model -->
+        <!-- Change the <tag> tag to the appropriate tag, and make it required -->
+        <tag id="car_model" name="car_model">
+          <option value="" disabled selected>
+            Select your favorite car model
+          </option>
+          <option value="sedan">Sedan</option>
+          <option value="suv">SUV</option>
+          <option value="hatchback">Hatchback</option>
+          <option value="convertible">Convertible</option></tag
+        ><br /><br />
+
+        <!-- Age of Car Slider -->
+        <label for="car_age">Age of Car (in years):</label>
+        <!-- Range input for selecting the age of the car with a slider, displaying the selected value -->
+        <!-- Set appropriate input type and some min max step and default value for the slider -->
+        <input id="car_age" name="car_age" />
+        <span id="car_age_value">5 years</span><br /><br />
+
+        <!-- Preference for Electric Car -->
+        <label>Would you prefer an electric car?</label><br />
+        <!-- Radio buttons for selecting whether the user prefers an electric car -->
+        <!-- Set appropriate input type and make it required -->
+        <input id="electric_yes" name="electric" value="yes" />
+        <label for="electric_yes">Yes</label>
+        <input id="electric_no" name="electric" value="no" />
+        <label for="electric_no">No</label><br /><br />
+      </tagset>
+
+      <!-- Section for Phone Preferences -->
+      <!-- Replace the <tagset> tag with the appropriate tag to group the fields together. -->
+      <tagset>
+        <legend>Phone Preferences</legend>
+
+        <!-- Preferred Phone Color Input -->
+        <label for="phone_color">Preferred Phone Color:</label>
+        <!-- Color input for selecting the preferred phone color -->
+        <!-- Set appropriate input type and make it required -->
+        <input id="phone_color" name="phone_color" /><br /><br />
+
+        <!-- Favorite Phone Brand Input -->
+        <label for="phone_brand">Favorite Phone Brand:</label>
+        <!-- Dropdown select for choosing the favorite phone brand -->
+        <!-- Change the <tag> tag to the appropriate tag, and make it required -->
+        <tag id="phone_brand" name="phone_brand">
+          <option value="" disabled selected>
+            Select your favorite phone brand
+          </option>
+          <option value="apple">Apple</option>
+          <option value="samsung">Samsung</option>
+          <option value="google">Google</option>
+          <option value="oneplus">OnePlus</option></tag
+        ><br /><br />
+
+        <!-- Preferred Release Date Input -->
+        <label for="release_date">Preferred Release Date of New Phone:</label>
+        <!-- Date input for selecting the preferred release date of a new phone -->
+        <!-- Set min date to 2024-01-01 and make it required -->
+        <input type="date" id="release_date" name="release_date" /><br /><br />
+      </tagset>
+
+      <!-- Submit Button -->
+      <!-- Button to submit the survey form -->
+      <!-- Set button type -->
+      <button>Submit Survey</button>
+    </form>
+  </body>
+</html>

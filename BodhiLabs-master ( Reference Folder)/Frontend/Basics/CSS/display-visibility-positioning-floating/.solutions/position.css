@@ -1,0 +1,62 @@
+/* --- SOLUTION CSS --- */
+
+/* TASK #1: Adjust the Paperclip
+    'position: relative' allows you to move an element from its
+    normal position without affecting other elements.
+*/
+#paperclip {
+    position: relative;
+    top: 20px;
+    left: -30px;
+}
+
+
+/* TASK #2: Set the Stage
+    This makes '.clue-area' a reference point for any absolutely
+    positioned children inside it.
+*/
+.clue-area {
+    position: relative;
+}
+
+
+/* TASK #3 & #4: Position and Stack the Overlays
+    'position: absolute' removes elements from the document flow and
+    positions them relative to their nearest positioned ancestor (the '.clue-area').
+    'z-index' controls which element appears on top. A higher number is closer to the viewer.
+*/
+#red-blotch {
+    position: absolute;
+    top: 50px;
+    left: 100px;
+    z-index: 1; /* Lower layer */
+}
+
+#decoder-lens {
+    position: absolute;
+    top: 30px;
+    left: 20px;
+    z-index: 2; /* Higher layer, appears on top of the red blotch */
+}
+
+
+/* TASK #5: A Sticky Situation
+    'position: sticky' behaves like 'relative' until the element
+    reaches the specified offset (top: 0), then it behaves like 'fixed'.
+*/
+#main-header {
+    position: sticky;
+    top: 0;
+}
+
+
+/* TASK #6: A Fixed Button
+    'position: fixed' removes the element from the document flow and
+    positions it relative to the browser window (viewport). It stays
+    in place even when the page is scrolled.
+*/
+#help-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}

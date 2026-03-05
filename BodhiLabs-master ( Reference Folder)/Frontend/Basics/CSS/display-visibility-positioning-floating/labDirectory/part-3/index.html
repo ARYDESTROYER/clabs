@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Daily CSS</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- get today's date -->
+    <script>
+        const today = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.addEventListener("DOMContentLoaded", function() {
+            const dateElement = document.querySelector('.article-footer');
+            dateElement.innerHTML = `Published: ${today.toLocaleDateString(undefined, options)} | The Daily CSS`;
+        });
+    </script>
+</head>
+<body>
+
+    <main class="newspaper">
+        <article class="story">
+            <h1>The Art of Web Layout</h1>
+
+            <img src="float.png" alt="Placeholder image" class="main-image">
+
+            <p>In the early days of web design, creating layouts was a significant challenge. Designers often used tables to structure their pages, a method that was functional but not semantically correct. The introduction of CSS brought new tools, and one of the most important for layout was the 'float' property.</p>
+
+            <p>The float property was originally designed to allow text to wrap around images, much like you see in a newspaper or magazine. By setting 'float: left' on an image, the image would move to the left edge of its container, and any subsequent text would flow neatly around its right side. This was a revolutionary step for web typography and design.</p>
+
+            <div class="pull-quote">
+                "Float was the cornerstone of CSS layouts for many years."
+            </div>
+
+            <p>Designers soon realized that they could float entire divs, not just images. By floating one div to the left and another to the right, they could create multi-column layouts. This became the standard technique for building complex web pages for a long time. However, this method had its own set of challenges, such as clearing floats to prevent layout issues and dealing with containers that would collapse in height.</p>
+
+            <p> When you float an element, it is taken out of the normal document flow. This can cause the parent container to not recognize its height. The solution was to use the 'clear' property on an element that follows the floated items to restore the normal document flow.</p>
+
+            <div class="pull-quote">
+                "Float is what you have conquered now!!!"
+            </div>
+
+            <footer class="article-footer">
+                Published: <script>
+                    document.write(today.toLocaleDateString(undefined, options));
+                </script>
+            </footer>
+        </article>
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+# Extracting specific lines from a file
+head -n 50 example.txt | tail -n 10 > output.txt
+
+OR
+
+head -n 50 example.txt > temp.txt
+tail -n 10 temp.txt > output.txt
+
+
+# Mime type of a file
+file --mime-type mystery_file

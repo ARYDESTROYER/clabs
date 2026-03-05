@@ -1,0 +1,62 @@
+/* Basic Styling - Don't change this! */
+body {
+    background-color: #f4f1e9;
+    font-family: 'Georgia', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #4a4a4a;
+}
+
+.map-container {
+    text-align: center;
+    border: 4px solid #c8bda4;
+    background-color: #fffaf0;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* --- YOUR MAGIC RUNES GO BELOW --- */
+
+/* RUNE #1: The Unseen Path
+   A path that has not yet been explored should be a mysterious, dark forest green.
+   It should not have any distracting decorations like an underline.
+*/
+.compass-link {
+    /* Your code here */
+}
+
+/* RUNE #2: The Known Trail
+   Once you have followed a path, the magic should fade slightly,
+   turning the link to a well-trodden, dark grey color to show you've been there.
+*/
+.compass-link:visited {
+    /* Your code here */
+}
+
+/* RUNE #3: The Glimmer of Interest
+   When your mouse cursor (your magical focus) hovers over the path,
+   it should glimmer with a bright, golden light and gain an underline to show its potential.
+*/
+.compass-link:hover {
+    /* Your code here */
+}
+
+/* RUNE #4: The Spark of Action
+   At the very moment you commit and click the path, it should spark with
+   a fiery red-orange energy, showing your decision to proceed.
+*/
+.compass-link:active {
+    /* Your code here */
+}
+
+/* RUNE #5: The Navigator's Choice
+   For adventurers who use their keyboard to navigate, the path should
+   glow a brilliant sapphire blue when selected (focused), making it clear which
+   path is ready for travel. It should also be underlined.
+*/
+.compass-link:focus {
+    /* Your code here */
+}

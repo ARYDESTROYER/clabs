@@ -1,0 +1,27 @@
+.git
+.gitignore
+.DS_Store
+Thumbs.db
+
+**/.git/
+**/.github/
+**/.gitlab/
+
+**/__pycache__/
+**/*.py[cod]
+**/*.log
+
+# Local build artifacts
+**/node_modules/
+**/.angular/
+**/.cache/
+
+# Not required for building the lab container
+.evaluationScripts/activityInitiator/juice-shop-src/test/
+.evaluationScripts/activityInitiator/juice-shop-src/screenshots/
+.evaluationScripts/activityInitiator/juice-shop-src/vagrant/
+.evaluationScripts/activityInitiator/juice-shop-src/.devcontainer.json
+.evaluationScripts/activityInitiator/juice-shop-src/.github/
+.evaluationScripts/activityInitiator/juice-shop-src/.gitlab/
+.evaluationScripts/activityInitiator/juice-shop-src/.codeium/
+.evaluationScripts/activityInitiator/juice-shop-src/.cursor/

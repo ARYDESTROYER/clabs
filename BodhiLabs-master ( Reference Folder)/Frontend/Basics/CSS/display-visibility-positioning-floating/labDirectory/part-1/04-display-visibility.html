@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Display and Visibility Properties</title>
+    <style>
+        /* Common properties moved to a shared class */
+        .common {
+            width: 100px;
+            height: 100px;
+            padding: 5px;
+            border: 1px solid blue;
+            background-color: yellow;
+        }
+
+        span.inline {
+            display: inline;
+            /* Default for span */
+        }
+
+        span.inline-block {
+            display: inline-block;
+        }
+
+        span.block {
+            display: block;
+        }
+
+        span.hidden {
+            visibility: hidden;
+            /* Invisible but space is preserved */
+        }
+
+        span.none {
+            display: none;
+            /* Element is not rendered and takes up no space */
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Display and Visibility Properties</h1>
+
+    <h2>display: inline</h2>
+    <div>
+        This text is inline with <span class="common inline">inline</span> elements.
+    </div>
+
+    <h2>display: inline-block</h2>
+    <div>
+        This text is inline with <span class="common inline-block">inline-block</span> elements, which have a width and
+        height.
+    </div>
+
+    <h2>display: block</h2>
+    <div>
+        This text is followed by a <span class="common block">block</span> element, which takes up the full width.
+    </div>
+
+    <h2>visibility: hidden</h2>
+    <div>
+        This text includes a <span class="common hidden">hidden</span> element, which is invisible but still takes up
+        space.
+    </div>
+
+    <h2>display: none</h2>
+    <div>
+        This text includes a <span class="common none">display: none</span> element, which does not appear and takes up
+        no space.
+    </div>
+
+</body>
+
+</html>

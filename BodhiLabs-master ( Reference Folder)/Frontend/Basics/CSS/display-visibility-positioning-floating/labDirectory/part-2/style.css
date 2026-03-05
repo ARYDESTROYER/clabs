@@ -1,0 +1,153 @@
+/* --- Basic Styling - Don't change this! --- */
+body {
+    font-family: monospace;
+    background-color: #333;
+    color: #eee;
+    margin: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #444;
+}
+
+#main-header {
+    background-color: #8b0000;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.5em;
+    border-bottom: 3px solid black;
+}
+
+.document {
+    padding: 20px;
+    background-color: #f5f5dc;
+    color: #333;
+    line-height: 1.6;
+}
+
+.clue-area {
+    border: 2px dashed #888;
+    height: 200px;
+    padding: 10px;
+    margin-top: 50px;
+    background-color: #ddd;
+}
+
+#secret-message {
+    background-color: #aaffaa;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+}
+
+.overlay {
+    width: 150px;
+    height: 100px;
+}
+
+#red-blotch {
+    background-color: rgba(255, 0, 0, 0.5);
+}
+
+#decoder-lens {
+    background-color: rgba(0, 0, 255, 0.5);
+    color: white;
+    text-align: center;
+    padding-top: 40px;
+    box-sizing: border-box;
+}
+
+#help-button {
+    background-color: #007bff;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 50px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#paperclip {
+    background-color: #ccc;
+    color: #333;
+    padding: 5px;
+    width: 50px;
+    text-align: center;
+}
+
+
+/* --- YOUR MISSION TASKS START HERE --- */
+
+/* TASK #1: Adjust the Paperclip
+    The paperclip is in the normal flow of the document.
+    Move it 20px down and 30px to the left from its CURRENT position
+    without affecting the layout of other elements.
+*/
+#paperclip {
+    /* Your code here */
+}
+
+
+/* TASK #2: Set the Stage
+    The overlays inside '.clue-area' need to be positioned precisely.
+    To do this, their parent container ('.clue-area') must become a "positioned ancestor".
+    Change its position property so it can serve as a reference for its children.
+    Using 'relative' is a common and effective choice here.
+*/
+.clue-area {
+    /* Your code here */
+}
+
+
+/* TASK #3: Position the Overlays
+    Now that '.clue-area' is positioned, place the overlays inside it.
+    Both '#red-blotch' and '#decoder-lens' should be taken out of the normal
+    document flow and positioned relative to the top-left corner of '.clue-area'.
+    - Position '#red-blotch' 50px from the top and 100px from the left.
+    - Position '#decoder-lens' 30px from the top and 20px from the left.
+*/
+#red-blotch {
+    /* Your code here */
+}
+
+#decoder-lens {
+    /* Your code here */
+}
+
+
+/* TASK #4: Control the Stacking
+    The '#decoder-lens' should appear ON TOP of the '#red-blotch'.
+    Give the decoder lens a higher stacking order value.
+    Any two numbers will work as long as the decoder's is higher (e.g., 1 and 2).
+*/
+#red-blotch {
+    /* Add z-index here */
+}
+
+#decoder-lens {
+    /* Add z-index here */
+}
+
+
+/* TASK #5: A Sticky Situation
+    Make the main header ('#main-header') stick to the top of the viewport
+    once you scroll past its starting position. It must also have a top offset of 0
+    to stick to the very top edge.
+*/
+#main-header {
+    /* Your code here */
+}
+
+
+/* TASK #6: A Fixed Button
+    The help button ('#help-button') should always be visible.
+    Fix it to the viewport, 20px from the bottom and 20px from the right.
+*/
+#help-button {
+    /* Your code here */
+}

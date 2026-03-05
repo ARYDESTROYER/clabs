@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}All Reviews - TechStore{% endblock %}
+
+{% block content %}
+<h1 style="color: #2c3e50; margin-bottom: 2rem;">All Customer Reviews</h1>
+
+<div class="alert alert-info">
+    <strong>ℹ️ Admin Note:</strong> This page displays all customer feedback across all products.
+    {% if session.is_admin %}
+    <br>You are viewing as <strong>Admin</strong>
+    {% endif %}
+</div>
+
+{% if reviews %}
+    {% for review in reviews %}
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+            <div>
+                <h3 style="color: #2c3e50; margin-bottom: 0.25rem;">{{ review.product_name }}</h3>
+                <p style="color: #7f8c8d; font-size: 0.9rem;">Reviewed by <strong>{{ review.username }}</strong></p>
+            </div>
+            <div style="font-size: 1.2rem;">
+                {% for i in range(review.rating) %}⭐{% endfor %}
+            </div>
+        </div>
+
+        <!-- VULNERABILITY: XSS triggers here when admin views this page -->
+        <div style="color: #555; line-height: 1.8; padding: 1rem; background: #f8f9fa; border-radius: 5px;">
+            {{ review.review_text|safe }}
+        </div>
+
+        <div style="color: #999; font-size: 0.85rem; margin-top: 1rem;">
+            Posted on {{ review.created_at }}
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <p style="color: #7f8c8d;">No reviews yet.</p>
+{% endif %}
+{% endblock %}

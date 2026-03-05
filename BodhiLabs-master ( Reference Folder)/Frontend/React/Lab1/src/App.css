@@ -1,0 +1,32 @@
+/* Ensure the entire app takes up the full height of the viewport */
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full height of the viewport */
+  justify-content: space-between; /* Push header to top and footer to bottom */
+}
+
+/* Ensure header and footer have a fixed height */
+header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+  text-align: center;
+  font-size: 1.5rem;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+footer {
+  background-color: #282c34;
+  padding: 10px;
+  color: white;
+  text-align: center;
+  font-size: 1rem;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* Main content section (ProductList) grows to take up remaining space */
+main {
+  flex-grow: 1; /* Fills the remaining vertical space */
+  padding: 20px;
+}

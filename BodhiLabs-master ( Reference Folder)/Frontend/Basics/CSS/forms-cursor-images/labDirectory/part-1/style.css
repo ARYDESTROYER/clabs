@@ -1,0 +1,83 @@
+/* Basic Styling - Don't change this! */
+body {
+    background-color: #2c3e50; /* Midnight blue */
+    font-family: 'Courier New', Courier, monospace;
+    color: #ecf0f1; /* Light grey */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.form-container {
+    width: 500px;
+    background-color: #34495e; /* Darker blue */
+    padding: 30px;
+    border: 1px solid #7f8c8d; /* Grey border */
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* --- YOUR STYLING MISSION BEGINS HERE --- */
+
+/* MISSION #1: Secure the Perimeter
+   Style the fieldset and legend to create clear sections.
+   - Give the 'fieldset' a 'border' of '1px solid #7f8c8d' and some 'padding'.
+   - Make the 'legend' text 'bold' and give it a different 'color'.
+*/
+fieldset {
+    /* Your code here */
+    margin-bottom: 20px; /* This is provided for spacing */
+}
+
+legend {
+    /* Your code here */
+}
+
+
+/* MISSION #2: Standardize the Input Fields
+   All text inputs must look uniform and clean.
+   - Target all 'input[type="text"]', 'input[type="password"]', and 'textarea' elements.
+   - Set their 'width' to '100%'. (Hint: add 'box-sizing: border-box;' to make this work well with padding).
+   - Add 'padding', a 'background-color', a 'border', and set the 'color' of the text inside them.
+*/
+input[type="text"],
+input[type="password"],
+textarea {
+    /* Your code here */
+}
+
+
+/* MISSION #3: Highlight the Active Field
+   When an agent is typing, the active field must be clearly highlighted.
+   - When any text 'input' or 'textarea' has ':focus', change its 'border-color'
+     and 'outline' to give it a noticeable glow.
+*/
+input:focus,
+textarea:focus {
+    /* Your code here */
+}
+
+
+/* MISSION #4: Design the Transmission Button
+   The submit button must look important and clickable.
+   - Style the 'button' with a unique 'background-color', 'color', and 'padding'.
+   - Remove the default 'border' and set its 'width' to '100%'.
+   - Make the cursor a 'pointer' when hovering over it.
+*/
+button {
+    /* Your code here */
+}
+
+
+/* MISSION #5: Add a Button Hover Effect
+   The button should react when an agent is about to click it.
+   - On ':hover', make the button's 'background-color' slightly darker.
+*/
+button:hover {
+    /* Your code here */
+}

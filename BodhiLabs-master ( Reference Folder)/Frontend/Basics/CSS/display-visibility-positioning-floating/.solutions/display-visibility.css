@@ -1,0 +1,24 @@
+/* --- SOLUTIONS --- */
+
+/* TRICK #1: The Vanishing Act!
+    `display: none` removes the element and its space from the layout.
+*/
+#box2 {
+    display: none;
+}
+
+/* TRICK #2: The Invisible Box!
+    `visibility: hidden` makes the element invisible but preserves its space.
+*/
+#box1 {
+    visibility: hidden;
+}
+
+/* TRICK #3: Line 'Em Up!
+    `display: inline-block` makes elements flow horizontally like inline
+    elements but allows them to have block properties like width, height,
+    padding, and margin.
+*/
+.box {
+    display: inline-block;
+}

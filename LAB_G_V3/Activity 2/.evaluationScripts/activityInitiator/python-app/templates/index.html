@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}TechStore - Premium Electronics{% endblock %}
+
+{% block content %}
+<div style="text-align: center; margin: 2rem 0;">
+    <h1 style="font-size: 2.5rem; color: #2c3e50;">Welcome to TechStore</h1>
+    <p style="font-size: 1.2rem; color: #7f8c8d; margin-top: 0.5rem;">Premium Electronics at Unbeatable Prices</p>
+</div>
+
+{% if flag1 %}
+<div class="alert alert-success">
+    <strong>🎉 FLAG1 - Reconnaissance Complete!</strong><br>
+    You've successfully explored the main sections of the application.<br>
+    <code style="background: #fff; padding: 0.5rem; display: inline-block; margin-top: 0.5rem; border-radius: 3px;">{{ flag1 }}</code>
+</div>
+{% endif %}
+
+<h2 style="margin: 2rem 0 1rem 0; color: #2c3e50;">Featured Products</h2>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+    {% for product in products %}
+    <div class="card" style="padding: 0; overflow: hidden;">
+        <div style="background: #ecf0f1; height: 200px; display: flex; align-items: center; justify-content: center; color: #95a5a6; font-size: 3rem;">
+            {% if product.category == 'Laptops' %}💻{% endif %}
+            {% if product.category == 'Smartphones' %}📱{% endif %}
+            {% if product.category == 'Tablets' %}📱{% endif %}
+            {% if product.category == 'Audio' %}🎧{% endif %}
+            {% if product.category == 'Accessories' %}⌨️{% endif %}
+            {% if product.category == 'Monitors' %}🖥️{% endif %}
+        </div>
+        <div style="padding: 1rem;">
+            <h3 style="font-size: 1rem; margin-bottom: 0.5rem; color: #2c3e50;">{{ product.name }}</h3>
+            <p style="color: #7f8c8d; font-size: 0.9rem; margin-bottom: 0.5rem;">{{ product.description[:80] }}...</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                <span style="font-size: 1.5rem; font-weight: bold; color: #27ae60;">${{ "%.2f"|format(product.price) }}</span>
+                <a href="/product/{{ product.id }}" class="btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div style="text-align: center; margin: 3rem 0;">
+    <a href="/products" class="btn" style="padding: 1rem 2rem; font-size: 1.1rem;">View All Products →</a>
+</div>
+{% endblock %}

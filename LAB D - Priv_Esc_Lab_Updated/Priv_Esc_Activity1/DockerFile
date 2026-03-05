@@ -1,0 +1,38 @@
+FROM sarus.bodhi.cse.iitb.ac.in/35/docker-combined5:latest
+
+# --- FIX START ---
+# The base image has a broken PPA source. We must remove it before updating.
+RUN rm -f /etc/apt/sources.list.d/ondrej*.list
+# --- FIX END ---
+
+# Install sudo (needed only during init)
+RUN apt-get update && apt-get install -y sudo
+
+# Create student user with temp sudo
+RUN useradd -m -s /bin/bash student && \
+    echo "student ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/student_temp && \
+    chmod 440 /etc/sudoers.d/student_temp
+
+# Create required directories
+RUN mkdir -p /home/labDirectory /home/.evaluationScripts
+
+# Environment variables
+ENV INSTRUCTOR_SCRIPTS="/home/.evaluationScripts" \
+    LAB_DIRECTORY="/home/labDirectory" \
+    PATH="/home/.evaluationScripts:${PATH}" \
+    TERM=xterm-256color \
+    HOME="/home/student"
+
+# Permissions
+RUN chown -R student:student /home/labDirectory
+
+# Bash QoL
+RUN echo "cd /home/labDirectory" >> /home/student/.bashrc && \
+    echo "alias ls='ls --color=always'" >> /home/student/.bashrc
+
+# Default user and working directory
+USER student
+WORKDIR /home/labDirectory
+
+# Container lifecycle: Run init script, then keep alive
+CMD ["/bin/bash", "-c", "bash /home/.evaluationScripts/activityInitiator/initactivity.sh; while :; do sleep 10; done"]

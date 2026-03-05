@@ -1,0 +1,29 @@
+/* --- SOLUTIONS --- */
+
+/* RUNE #1: The Unseen Path */
+.compass-link {
+    color: darkgreen;
+    text-decoration: none;
+}
+
+/* RUNE #2: The Known Trail */
+.compass-link:visited {
+    color: #555555;
+}
+
+/* RUNE #3: The Glimmer of Interest */
+.compass-link:hover {
+    color: #daa520; /* A golden color */
+    text-decoration: underline;
+}
+
+/* RUNE #4: The Spark of Action */
+.compass-link:active {
+    color: #ff4500; /* A fiery orange-red */
+}
+
+/* RUNE #5: The Navigator's Choice */
+.compass-link:focus {
+    color: #005f99; /* A sapphire blue */
+    text-decoration: underline;
+}

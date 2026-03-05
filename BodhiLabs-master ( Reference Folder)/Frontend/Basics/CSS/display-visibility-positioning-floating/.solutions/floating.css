@@ -1,0 +1,19 @@
+/* --- SOLUTION CSS --- */
+
+/* TASK #1: Float the Main Image */
+.main-image {
+    float: left;
+}
+
+
+/* TASK #2: Float the Pull Quote */
+.pull-quote {
+    float: right;
+    width: 250px;
+}
+
+
+/* TASK #3: Clear the Footer */
+.article-footer {
+    clear: both;
+}
