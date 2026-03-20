@@ -249,16 +249,13 @@ echo "[+] Initializing Lab Environment..."
 # PART 1: INFRASTRUCTURE & PERMISSIONS (Critical - Do This First!)
 # ═══════════════════════════════════════════════════════════════════════════
 
-# 1. Pre-create evaluate.json with correct permissions
-# This prevents PermissionError when autograder tries to write results
-sudo touch /home/.evaluationScripts/evaluate.json
-sudo chown student:student /home/.evaluationScripts/evaluate.json
-sudo chmod 666 /home/.evaluationScripts/evaluate.json
+# 1. Ensure .evaluationScripts is traversable
+# Do NOT rely on creating or chmodding evaluate.json here.
+# The safe pattern is: pre-bake a placeholder in the tarball, write results to
+# /tmp/evaluate.json from autograder.py, then copy back in evaluate.sh.
+sudo chmod 755 /home/.evaluationScripts /home/.evaluationScripts/activityInitiator 2>/dev/null || true
 
-# 2. Ensure .evaluationScripts is traversable
-sudo chmod -R 755 /home/.evaluationScripts || true
-
-# 3. Create any submission files that students need to write to
+# 2. Create any submission files that students need to write to
 # IMPORTANT: If file is in tarball, LMS marks it read-only!
 # Solution: Create file at runtime, NOT in tarball
 sudo touch /home/labDirectory/SUBMIT_FLAG_HERE.txt
@@ -317,7 +314,7 @@ Always set up infrastructure (permissions, files) BEFORE any lab-specific setup 
 
 ```
 ✅ CORRECT ORDER:
-1. Create evaluate.json with permissions
+1. Ensure the evaluation directory is traversable
 2. Create submission files
 3. Fix directory permissions
 4. Compile binaries (might fail)
@@ -830,7 +827,7 @@ echo '{"test":true}' > /home/.evaluationScripts/test.json && echo "mount works" 
 | Path | Owner | Permissions | Notes |
 |------|-------|-------------|-------|
 | `/home/.evaluationScripts/` | root | 755 | Instructor scripts |
-| `/home/.evaluationScripts/evaluate.json` | student | 666 | MUST be writable |
+| `/home/.evaluationScripts/evaluate.json` | LMS-mounted placeholder | varies | Seed file only; write real results to `/tmp/evaluate.json` |
 | `/home/labDirectory/` | student | 755 | Student workspace |
 | `/home/labDirectory/*` | student | 644-666 | Student files |
 | `/root/flag.txt` | root | 400 | Secret flag |
@@ -1061,13 +1058,15 @@ strings /usr/local/bin/sysbackup
 PermissionError: [Errno 13] Permission denied: '/home/.evaluationScripts/evaluate.json'
 ```
 
-**Cause**: evaluate.json didn't exist or was owned by root.
+**Cause**: The autograder wrote directly into the mounted `.evaluationScripts` path.
 
-**Solution**: Pre-create with correct permissions in initactivity.sh:
+**Solution**: Use the `/tmp` write pattern instead of touching `evaluate.json` in `initactivity.sh`:
+```python
+OUTPUT_JSON = "/tmp/evaluate.json"
+```
 ```bash
-sudo touch /home/.evaluationScripts/evaluate.json
-sudo chown student:student /home/.evaluationScripts/evaluate.json
-sudo chmod 666 /home/.evaluationScripts/evaluate.json
+python3 "$EVAL_DIR/autograder.py"
+cp /tmp/evaluate.json "$EVAL_DIR/evaluate.json" 2>/dev/null || true
 ```
 
 #### Challenge 5: Read-Only Submission File
@@ -1185,10 +1184,7 @@ CMD ["/bin/bash", "-c", "bash /home/.evaluationScripts/activityInitiator/initact
 echo "[+] Initializing Activity 2 (PATH Exploit)..."
 
 # PART 1: INFRASTRUCTURE
-sudo touch /home/.evaluationScripts/evaluate.json
-sudo chown student:student /home/.evaluationScripts/evaluate.json
-sudo chmod 666 /home/.evaluationScripts/evaluate.json
-sudo chmod -R 777 /home/.evaluationScripts || true
+sudo chmod 755 /home/.evaluationScripts /home/.evaluationScripts/activityInitiator 2>/dev/null || true
 
 sudo touch /home/labDirectory/SUBMIT_FLAG_HERE.txt
 sudo chmod 777 /home/labDirectory/SUBMIT_FLAG_HERE.txt
@@ -1758,7 +1754,7 @@ import shutil
 base = "/home/.evaluationScripts/.bodhiFiles"
 student_dir = os.path.join("/home", "labDirectory")
 expected_dir = os.path.join(base, "expected")
-output_json = os.path.join("/home/.evaluationScripts", "evaluate.json")
+output_json = os.path.join("/tmp", "evaluate.json")
 
 # Template for test results
 template = {
@@ -1916,7 +1912,7 @@ const path = require('path');
 // Paths
 const studentDir = '/home/labDirectory';
 const evaluationDir = '/home/.evaluationScripts';
-const outputFile = path.join(evaluationDir, 'evaluate.json');
+const outputFile = '/tmp/evaluate.json';
 
 // Test result template
 const createTest = (testid, status = 'failure', score = 0, message = 'Test failed') => ({
@@ -2311,7 +2307,7 @@ import copy
 # Paths
 base = "/home/.evaluationScripts/.bodhiFiles"
 student_dir = "/home/labDirectory"
-output_json = os.path.join("/home/.evaluationScripts", "evaluate.json")
+output_json = os.path.join("/tmp", "evaluate.json")
 
 # Template
 template = {

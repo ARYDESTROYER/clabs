@@ -6,6 +6,27 @@
 
 ## Activity Log
 
+### March 11, 2026
+- **Niral Lab: Steganography & Forensics — LOCALLY FIXED & DOCKER-TESTED**
+  - Reconstructed the lab from editable source folders and rebuilt both upload archives from source
+  - Restored missing challenge assets into `labDirectory/` from the tracked student archive
+  - Fixed the Dockerfile to use the standard `student` user with temporary sudo during init only
+  - Fixed `initactivity.sh` to create `SUBMIT_FLAGS_HERE.txt` at runtime instead of shipping it in `student_directory.tgz`
+  - Fixed `autograder.py` to read only from `/tmp/student_flags.txt` and write only to `/tmp/evaluate.json`
+  - Fixed `evaluate.sh` to copy the student submission to `/tmp`, run the autograder, and copy `/tmp/evaluate.json` back to `/home/.evaluationScripts/evaluate.json`
+  - Added `.evaluationScripts/evaluate.json` as a minimal seed placeholder in the evaluation archive
+  - Updated the student README so the file layout, installed tools, and submission workflow match the shipped lab
+
+  **Local Validation Completed:**
+  - `docker pull --platform linux/amd64 sarus.bodhi.cse.iitb.ac.in/35/docker-combined5:latest` succeeded
+  - `docker build --platform linux/amd64 -t niral-lab-local:latest .` succeeded
+  - Container started successfully with extracted tarballs mounted at `/home/.evaluationScripts` and `/home/labDirectory`
+  - Init script completed cleanly and created a writable `SUBMIT_FLAGS_HERE.txt` at runtime
+  - Container runs as `student`; `sudo` is revoked after init; required tools are available: `exiftool`, `binwalk`, `zsteg`, `steghide`, `sox`, `strings`
+  - Evaluation flow tested successfully end to end: sample submission → `/tmp/student_flags.txt` → `/tmp/evaluate.json` → `/home/.evaluationScripts/evaluate.json`
+
+  **Status:** ✅ Ready for BodhiLabs upload from the rebuilt source-backed archives
+
 ### February 25–26, 2026
 - **Lab C: DNS Zone Attack & DNS Tunneling Detection — DEPLOYED**
   - 3 activities: Guided AXFR tutorial, Intermediate AXFR challenge, Advanced DNS tunneling detection

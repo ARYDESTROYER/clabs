@@ -1,0 +1,12 @@
+Submit your fragments in this file.
+Enter only the fragment value after each label.
+The final decoded flag should be of the form IITB{decoded_message}.
+
+Fragment 1:
+Fragment 2:
+Fragment 3:
+Fragment 4 (Password):
+Fragment 5:
+Fragment 6:
+Final Decoded Flag:
+test123
