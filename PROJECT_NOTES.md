@@ -6,6 +6,49 @@
 
 ## Activity Log
 
+### March 27, 2026
+- **LAB-G: ZAP `/zap` Spinner Stuck on "Starting your application" — ROOT CAUSE FIXED**
+  - Symptom: `localhost:30004/zap` loads WebSwing shell but never opens ZAP desktop.
+  - Root cause (from `webswing.log`): `UnsupportedClassVersionError` for `org.zaproxy.zap.ZAP`.
+    - ZAP jars require Java 17 (class file 61), while container runtime was Java 11 (max class file 55).
+  - Fix applied:
+    - Updated `LAB-G/Dockerfile` package from `default-jre` to `openjdk-17-jre`.
+    - Updated all `LAB-G/Activity {1,2,3}/.evaluationScripts/activityInitiator/initactivity.sh` to prefer:
+      - `JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64`
+      - prepend `$JAVA_HOME/bin` to `PATH`
+    - Added Java version logging to `/tmp/labg_init.log` for future diagnostics.
+  - Rebuild required: new image + refreshed activity tarballs.
+
+- **LAB-G: LMS Editor Read-Only Submission Files (All Activities) — FIXED**
+  - Symptom: `recon.txt`, `flag.txt`, and `xss-payload.txt` were editable in terminal but failed to save in LMS editor.
+  - Root cause: LMS editor applies stricter write checks than shell writes. Runtime-created files with non-student ownership or metadata mismatch can still appear read-only in editor.
+  - Fix applied in all `LAB-G/Activity {1,2,3}/.evaluationScripts/activityInitiator/initactivity.sh`:
+    - force `chown -R student:student /home/labDirectory`
+    - recreate each submission file on init (`rm -f` then recreate)
+    - apply `chown student:student` and `chmod 777` to each submission file
+  - Rebuilt all activity tarballs after patch.
+
+- **LAB-G: ZAP Web UI at `localhost:30004/zap` Returned `ERR_EMPTY_RESPONSE` — HARDENED**
+  - Symptom: ZAP UI endpoint reachable but no response body in browser.
+  - Likely cause: broad `sed` rewrites of `/zap/webswing/webswing.config` and `/zap/zap-webswing.sh` can break startup on newer ZAP script formats.
+  - Fix applied in all activities:
+    - stopped rewriting `webswing.config` and `zap-webswing.sh`
+    - retained `jetty.properties` host/HTTPS/UI-port adjustment for 30004
+    - set ZAP backend port via supervisor env:
+      - `ZAP_WEBSWING_OPTS="-host 0.0.0.0 -port 30003"`
+  - Rebuilt all activity tarballs after patch.
+
+### March 26, 2026
+- **macOS Metadata Cleanup for Tarball Uploads (Niral Lab - Wavacity)**
+  - Observed extra `._*` AppleDouble sidecar files and `.DS_Store` entries in LMS file explorer after upload.
+  - Root cause: macOS Finder metadata and extended attributes can be packed into tarballs if not suppressed.
+  - Applied cleanup before packaging:
+    - `find "Niral Lab - Wavacity" \( -name '._*' -o -name '.DS_Store' \) -type f -delete`
+  - Rebuilt archives with metadata suppression:
+    - `COPYFILE_DISABLE=1 tar -czf student_directory.tgz -C "Niral Lab - Wavacity" labDirectory`
+    - `COPYFILE_DISABLE=1 tar -czf clientEvaluationScripts.tgz -C "Niral Lab - Wavacity" .evaluationScripts`
+  - Verified clean archives by checking that tar listings contain no `._*` or `.DS_Store` paths.
+
 ### March 11, 2026
 - **Niral Lab: Steganography & Forensics — LOCALLY FIXED & DOCKER-TESTED**
   - Reconstructed the lab from editable source folders and rebuilt both upload archives from source

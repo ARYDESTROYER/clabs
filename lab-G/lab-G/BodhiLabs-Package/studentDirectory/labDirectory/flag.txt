@@ -1,4 +1,0 @@
-# Enter your captured flags below, one per line
-# Example:
-# FLAG{example_flag_here}
-

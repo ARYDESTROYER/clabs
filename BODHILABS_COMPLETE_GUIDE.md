@@ -531,11 +531,31 @@ cd YourLab
 tar -czvf client_evaluation.tgz .evaluationScripts
 tar -czvf student_directory.tgz labDirectory
 
-# macOS: Remove extended attributes
-tar --no-mac-metadata -czvf client_evaluation.tgz .evaluationScripts
+# macOS: Recommended clean packaging (prevents ._* AppleDouble files)
+find . -name '._*' -o -name '.DS_Store'
+find . \( -name '._*' -o -name '.DS_Store' \) -type f -delete
+COPYFILE_DISABLE=1 tar -czvf client_evaluation.tgz .evaluationScripts
+COPYFILE_DISABLE=1 tar -czvf student_directory.tgz labDirectory
+
+# Optional verification
+tar -tzvf client_evaluation.tgz | grep -E '(^|/)\._|(^|/)\.DS_Store' || echo "client_evaluation.tgz clean"
+tar -tzvf student_directory.tgz | grep -E '(^|/)\._|(^|/)\.DS_Store' || echo "student_directory.tgz clean"
 ```
 
-### 5.3 Automated Packaging Script (prepup.sh)
+### 5.3 macOS AppleDouble Metadata Gotcha
+
+On macOS, Finder and extended attributes can create hidden metadata entries:
+- `._<filename>` (AppleDouble sidecar files)
+- `.DS_Store`
+
+If these are included in lab tarballs, students may see duplicate/noisy files in the LMS explorer. This is cosmetic but confusing.
+
+Recommended practice on macOS:
+1. Delete `._*` and `.DS_Store` files before packaging.
+2. Set `COPYFILE_DISABLE=1` while creating tarballs.
+3. Verify archives are clean with `tar -tzf ... | grep` checks before upload.
+
+### 5.4 Automated Packaging Script (prepup.sh)
 
 ```bash
 #!/bin/bash
@@ -792,6 +812,91 @@ cp /tmp/evaluate.json "$EVAL_DIR/evaluate.json" 2>/dev/null || true
 - The `cp` in `evaluate.sh` works because the LMS itself invoked the script and may grant write access during evaluation
 - Even if the `cp` fails (due to LMS restrictions), the autograder doesn't crash — it already wrote successfully to `/tmp`
 - The LMS may also read the evaluate.json from the mount even if `cp` fails, as long as the pre-baked placeholder exists
+
+### 7.8 LMS Editor vs Terminal Write Mismatch (Submission Files)
+
+**Problem**: A submission file may be writable from terminal commands but still fail to save in the LMS editor as "readonly".
+
+**Why this happens**:
+- The LMS editor path can enforce stricter ownership/metadata checks than shell redirection commands.
+- If submission files are created with root ownership, stale metadata, or inconsistent mode/owner state across init runs, the editor may reject saves.
+
+**Reliable fix pattern** (in `initactivity.sh`):
+```bash
+# Ensure student owns the workspace mount
+chown -R student:student /home/labDirectory 2>/dev/null || true
+
+# Recreate writable submission files every start
+for f in SUBMIT_FLAG_HERE.txt; do
+    rm -f "/home/labDirectory/$f" 2>/dev/null || true
+    : > "/home/labDirectory/$f"
+    chown student:student "/home/labDirectory/$f" 2>/dev/null || true
+    chmod 777 "/home/labDirectory/$f" 2>/dev/null || true
+done
+```
+
+**Key point**: Runtime recreation + explicit `student` ownership is more reliable than only `chmod`.
+
+### 7.9 ZAP WebSwing Porting Safety (Avoid Script Rewrites)
+
+**Problem**: Browser UI endpoint (for example `localhost:30004/zap`) may return `ERR_EMPTY_RESPONSE` if ZAP WebSwing startup scripts are modified with broad search/replace.
+
+**Risky pattern**:
+- Rewriting `/zap/zap-webswing.sh` with global `sed` replacements (for example replacing all `8090` occurrences).
+- Rewriting `webswing.config` with broad string substitution across unknown versions.
+
+**Safer pattern**:
+- Prefer setting ZAP backend port via environment:
+    - `ZAP_WEBSWING_OPTS="-host 0.0.0.0 -port 30003"`
+- Limit file edits to `jetty.properties` for UI host/port/HTTPS toggles only.
+
+Example supervisor entry:
+```ini
+[program:zap]
+directory=/zap
+command=/zap/zap-webswing.sh
+autostart=true
+autorestart=true
+environment=ZAP_WEBSWING_OPTS="-host 0.0.0.0 -port 30003"
+```
+
+If UI still fails:
+```bash
+cat /opt/*zap*.err
+cat /opt/*zap*.log
+netstat -tuln | grep -E '30004|30003|8080|8090'
+```
+
+### 7.10 ZAP WebSwing Infinite Spinner Due to Java Version Mismatch
+
+**Symptom**: `http://localhost:30004/zap` loads but stays on "Starting your application".
+
+**Root cause**: ZAP classes in current `zaproxy/zap-stable` builds are compiled for Java 17 (class file version 61). If the runtime JVM is Java 11 (supports up to class file 55), WebSwing cannot launch `org.zaproxy.zap.ZAP` and silently loops at startup.
+
+**Log signature** (`/zap/webswing/logs/webswing.log` or `/zap/webswing/webswing.out`):
+```text
+UnsupportedClassVersionError: org/zaproxy/zap/ZAP has been compiled by a more recent version of the Java Runtime (class file version 61.0), this version of the Java Runtime only recognizes class file versions up to 55.0
+```
+
+**Fix pattern**:
+```dockerfile
+# Install Java 17 runtime
+RUN apt-get update && apt-get install -y openjdk-17-jre && rm -rf /var/lib/apt/lists/*
+```
+
+```bash
+# In initactivity.sh, force Java 17 for ZAP launch
+if [ -x /usr/lib/jvm/java-17-openjdk-amd64/bin/java ]; then
+    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+    export PATH="$JAVA_HOME/bin:$PATH"
+fi
+java -version
+```
+
+**Verification**:
+- `java -version` shows `17.x` in init logs.
+- `webswing.log` no longer reports `UnsupportedClassVersionError`.
+- `/zap` transitions from spinner to active ZAP UI.
 
 **Debugging Tip**: If you're still getting issues after applying this pattern, SSH into the container and run:
 ```bash

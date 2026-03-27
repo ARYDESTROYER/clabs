@@ -1,3 +1,0 @@
-# Enter your working XSS payload below
-# This should be the payload that successfully executes JavaScript
-
