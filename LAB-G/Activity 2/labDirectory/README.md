@@ -3,7 +3,6 @@
 The review input uses weak sanitization. Your goal is to trigger stored XSS.
 
 ## Required Output Files
-- `xss-payload.txt`: Your working payload.
 - `flag.txt`: Paste only FLAG2.
 
 ## Hint

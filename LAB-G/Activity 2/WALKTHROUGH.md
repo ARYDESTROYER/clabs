@@ -42,7 +42,6 @@ If successful, response contains:
 
 ### 5. Fill submission files
 Under `/home/labDirectory`:
-- `xss-payload.txt`: paste payload used.
 - `flag.txt`: paste only FLAG2.
 
 ### 6. Evaluate

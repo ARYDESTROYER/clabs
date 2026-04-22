@@ -43,7 +43,7 @@ if [ -f /zap/webswing/jetty.properties ]; then
   sed -i 's/org.webswing.server.host=localhost/org.webswing.server.host=0.0.0.0/g' /zap/webswing/jetty.properties
 fi
 
-for f in xss-payload.txt flag.txt; do
+for f in flag.txt; do
   rm -f "$LAB_DIR/$f" 2>/dev/null || true
   : > "$LAB_DIR/$f"
   chown student:student "$LAB_DIR/$f" 2>/dev/null || true

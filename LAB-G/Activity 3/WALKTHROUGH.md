@@ -45,7 +45,6 @@ Expected `latest` value:
 
 ### 5. Fill submission files
 Under `/home/labDirectory`:
-- `xss-payload.txt`: payload used.
 - `flag.txt`: paste only FLAG3.
 
 ### 6. Evaluate

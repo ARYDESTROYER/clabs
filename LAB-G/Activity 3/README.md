@@ -14,7 +14,6 @@ Use stored XSS to execute in victim context and exfiltrate the victim-only flag.
 4. Retrieve the leaked value via `/api/exfil/latest` and submit FLAG3.
 
 ## Submission Files
-- `xss-payload.txt`
 - `flag.txt`
 
 ## Evaluation

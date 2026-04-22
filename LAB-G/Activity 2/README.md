@@ -13,7 +13,6 @@ Exploit the stored XSS issue in the review flow and prove payload execution.
 3. Confirm XSS trigger proof and capture FLAG2.
 
 ## Submission Files
-- `xss-payload.txt`
 - `flag.txt`
 
 ## Evaluation

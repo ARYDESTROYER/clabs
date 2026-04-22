@@ -10,15 +10,7 @@ results = {"data": []}
 checks = [
     {
         "testid": 1,
-        "maximum marks": 50,
-        "file": "/tmp/xss-payload.txt",
-        "validator": lambda s: any(x in s.lower() for x in ["onerror=", "onload=", "<svg", "<img"]),
-        "ok": "Payload has event-handler style execution vector.",
-        "fail": "Payload should include a practical event-handler vector (e.g., onerror/onload).",
-    },
-    {
-        "testid": 2,
-        "maximum marks": 50,
+        "maximum marks": 100,
         "file": "/tmp/flag.txt",
         "validator": lambda s: s.strip() == EXPECTED_FLAG,
         "ok": "Correct FLAG2 submitted.",

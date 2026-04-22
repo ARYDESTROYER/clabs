@@ -14,8 +14,6 @@ Use OWASP ZAP (browser UI) to map the application attack surface and identify en
 4. Capture FLAG1 and submit artifacts.
 
 ## Submission Files
-- `recon.txt`
-- `zap-findings.txt`
 - `flag.txt`
 
 ## Evaluation

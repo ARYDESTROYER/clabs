@@ -43,8 +43,6 @@ curl -i http://localhost:30000/hidden/scan-checkpoint
 
 ### 5. Fill submission files
 Under `/home/labDirectory`:
-- `recon.txt`: include at least `/reviews`, `/products`, `/hidden/scan-checkpoint`.
-- `zap-findings.txt`: include one relevant XSS/security observation from ZAP.
 - `flag.txt`: paste only FLAG1 (format: `IITB{...}`).
 
 ### 6. Evaluate

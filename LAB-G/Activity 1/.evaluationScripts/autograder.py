@@ -10,23 +10,7 @@ results = {"data": []}
 checks = [
     {
         "testid": 1,
-        "maximum marks": 30,
-        "file": "/tmp/recon.txt",
-        "validator": lambda s: "/reviews" in s and "/products" in s and "/hidden/scan-checkpoint" in s,
-        "ok": "Recon file includes key endpoints.",
-        "fail": "Recon should mention /reviews, /products, and /hidden/scan-checkpoint.",
-    },
-    {
-        "testid": 2,
-        "maximum marks": 30,
-        "file": "/tmp/zap-findings.txt",
-        "validator": lambda s: "xss" in s.lower() and ("stored" in s.lower() or "cross" in s.lower()),
-        "ok": "ZAP findings indicate relevant XSS observations.",
-        "fail": "zap-findings.txt should mention stored XSS style finding details.",
-    },
-    {
-        "testid": 3,
-        "maximum marks": 40,
+        "maximum marks": 100,
         "file": "/tmp/flag.txt",
         "validator": lambda s: s.strip() == EXPECTED_FLAG,
         "ok": "Correct FLAG1 submitted.",

@@ -3,7 +3,6 @@
 This stage requires victim-context exfiltration.
 
 ## Required Output Files
-- `xss-payload.txt`: Payload used for exfiltration.
 - `flag.txt`: Paste only FLAG3.
 
 ## Hint

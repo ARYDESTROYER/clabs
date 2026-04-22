@@ -10,15 +10,7 @@ results = {"data": []}
 checks = [
     {
         "testid": 1,
-        "maximum marks": 60,
-        "file": "/tmp/xss-payload.txt",
-        "validator": lambda s: "/api/victim/profile" in s and "/collect" in s and any(x in s.lower() for x in ["onerror=", "onload=", "<img", "<svg"]),
-        "ok": "Payload includes victim data access and exfil destination.",
-        "fail": "Payload should include /api/victim/profile and /collect with an event-handler style trigger.",
-    },
-    {
-        "testid": 2,
-        "maximum marks": 40,
+        "maximum marks": 100,
         "file": "/tmp/flag.txt",
         "validator": lambda s: s.strip() == EXPECTED_FLAG,
         "ok": "Correct FLAG3 submitted.",
