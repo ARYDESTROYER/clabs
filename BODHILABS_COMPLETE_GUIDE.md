@@ -16,6 +16,8 @@
    - 4.2 [initactivity.sh (Initialization Script)](#42-initactivitysh-initialization-script)
    - 4.3 [evaluate.sh (Evaluation Script)](#43-evaluatesh-evaluation-script)
    - 4.4 [autograder.py (Autograder)](#44-autograderpy-autograder)
+   - 4.5 [Documentation Files (README, WALKTHROUGH, activity_guide)](#45-documentation-files-readmemd-walkthroughmd-activity_guidemd)
+   - 4.6 [Running Multi-Service Labs](#46-running-multi-service-labs)
 5. [Tarball Packaging](#5-tarball-packaging)
 6. [LMS Upload & Deployment](#6-lms-upload--deployment)
 7. [Critical Constraints & Gotchas](#7-critical-constraints--gotchas)
@@ -130,20 +132,25 @@ Student clicks "Evaluate"
 
 ```
 YourLab/
-├── .evaluationScripts/              # Instructor-only scripts
+├── README.md                        # Instructor reference: overview & vulnerability summary
+├── WALKTHROUGH.md                   # Instructor reference: full step-by-step solution
+├── activity_guide.md                # Student-facing: pedagogical guide pasted into LMS
+├── .evaluationScripts/              # Instructor-only scripts (packaged into tarball)
 │   ├── activityInitiator/           # Initialization subfolder
 │   │   ├── initactivity.sh          # Main init script (REQUIRED)
-│   │   └── [source files]           # C source, configs, etc.
+│   │   └── [source files]           # C source, configs, app code, etc.
 │   ├── evaluate.sh                  # Evaluation trigger (REQUIRED)
 │   ├── autograder.py                # Grading logic (REQUIRED)
+│   ├── evaluate.json                # Placeholder JSON (see Section 7.7)
 │   └── [helper files]               # linpeas.sh, etc.
-├── labDirectory/                    # Student-facing files
-│   ├── README.md                    # Lab instructions
-│   └── [starter files]              # Any files students need
+├── labDirectory/                    # Student workspace (packaged into tarball)
+│   └── [optional starter files]     # Often empty; init.sh creates submission files
 ├── Dockerfile                       # Container build instructions
 ├── client_evaluation.tgz            # Generated: .evaluationScripts archive
 └── student_directory.tgz            # Generated: labDirectory archive
 ```
+
+The three top-level documentation files (`README.md`, `WALKTHROUGH.md`, `activity_guide.md`) are NOT packaged into either tarball. They live at activity root only — the first two as instructor reference material, the third because its contents are pasted into the LMS lab page rather than delivered through the container. See Section 4.5 for what each contains.
 
 ### 3.2 Runtime Structure (Inside Container)
 
@@ -156,8 +163,7 @@ YourLab/
 │   ├── autograder.py
 │   └── evaluate.json                # Created at runtime by autograder
 ├── labDirectory/                    # Mounted from student_directory.tgz
-│   ├── README.md
-│   └── [student files]
+│   └── [submission files]           # Created at runtime by initactivity.sh
 └── student/                         # Student's home directory
     └── .bashrc
 ```
@@ -481,6 +487,267 @@ The LMS expects this exact structure:
 | `score` | int | Points earned |
 | `maximum marks` | int | Maximum possible points |
 | `message` | string | Feedback shown to student |
+
+---
+
+### 4.5 Documentation Files (README.md, WALKTHROUGH.md, activity_guide.md)
+
+Each lab activity ships with three Markdown files at the activity root. None are packaged into the tarballs.
+
+**README.md** is an instructor-facing reference. It opens with an audience tag (e.g. `> Audience: instructor / teaching staff`) so the file's role is unambiguous if it leaks. Contents: one-paragraph learning objective, target description, the vulnerability or setup from an instructor's view (which rule fires, which misconfig is exploited, what the autograder checks), and a pointer to the WALKTHROUGH for the full solution. Used by teaching staff to understand the lab before they help a student.
+
+**WALKTHROUGH.md** is also instructor-facing. It contains the full step-by-step solution path: every command, every expected output, every "why this works" explanation. Used by graders, TAs, and anyone replacing or maintaining the lab. Should be precise enough that a new staff member can solve the lab from scratch without prior context.
+
+**activity_guide.md** is student-facing. Written in pedagogical voice (Objective → numbered Steps → Submission), it explains both the WHAT and the WHY of each technique. Tone is hand-holding for guided activities and hint-style for independent ones — match the activity's intent. The contents are manually pasted into the LMS activity-description field on the lab's setup page; the LMS renders the markdown as the panel students see alongside the terminal/editor when they open the lab. The file is kept at activity root for version control and so authors can iterate on it locally before pasting.
+
+---
+
+### 4.6 Running Multi-Service Labs
+
+Some labs need more than one long-lived process inside the container. Examples:
+
+- A web app behind a reverse proxy + WAF (e.g. Flask on `127.0.0.1:5000` proxied by Apache on `:30000` with mod_security inspecting requests).
+- A tool with a browser UI plus a backend (e.g. OWASP ZAP via WebSwing).
+- A Flask backend plus a separate "victim" worker that simulates user behavior.
+
+This pattern is well-supported on BodhiLabs but requires a specific approach because of the container's startup model. This entire section is the result of two real lab builds (LAB-G and LAB B1) hitting the same set of issues — read it once before designing any multi-service activity.
+
+#### 4.6.1 Why supervisord-as-PID-1 doesn't fit
+
+In a normal Docker workflow you'd often use `supervisord` as PID 1 to manage multiple services — it starts them, restarts them on crash, and aggregates their logs. That model does NOT cleanly fit BodhiLabs because the LMS expects the container CMD to follow this specific pattern:
+
+```dockerfile
+CMD ["/bin/bash", "-c", "bash /home/.evaluationScripts/activityInitiator/initactivity.sh; while :; do sleep 10; done"]
+```
+
+PID 1 is the bash one-liner. The init script runs once, then bash sits in an infinite sleep loop to keep the container alive (the LMS treats container exit as a failure). If you replace this CMD with `supervisord`, the LMS' lifecycle hooks (volume mounts, init-script invocation, evaluate trigger) no longer line up with what the platform expects, and you'll see strange behaviour — sometimes the container builds and runs but the Evaluate button does nothing, sometimes initial volume mounts arrive late, sometimes the container restarts in a loop.
+
+**The accepted pattern is: launch each service as a background process from `initactivity.sh`, then let the init script exit. The CMD's sleep loop keeps the container alive while your services keep running as ordinary backgrounded PIDs.**
+
+#### 4.6.2 The launch primitive
+
+The general shape of starting one background service from `initactivity.sh`:
+
+```bash
+nohup python3 /opt/myapp/myapp.py >/tmp/myapp.log 2>&1 &
+disown 2>/dev/null || true
+sleep 2
+```
+
+What each piece does:
+
+- **`nohup`** — detach the process from the controlling terminal so it survives when `init.sh` exits. Without `nohup`, the SIGHUP sent to bash on script exit would kill your service.
+- **`>/tmp/myapp.log 2>&1`** — redirect both stdout and stderr to a single log file in `/tmp`. Why `/tmp`: it's a tmpfs and is always world-writable, so non-root services can write to it; `/var/log` requires either root or specific group membership and creates permission headaches.
+- **`&`** — run in background.
+- **`disown`** — remove the process from bash's job table so bash doesn't try to wait for it. Without `disown`, init.sh can hang on exit even with `nohup` set (the symptoms are inconsistent across distros and bash versions; just always include it). The `2>/dev/null || true` swallows the harmless error if the job is already gone.
+- **`sleep 2`** — give the service time to bind its port before whatever runs next assumes it's up. For most Python and Node services 2 seconds is enough; for JVM services (ZAP, Java apps) bump to 5–10.
+
+For services that already daemonize themselves (Apache, nginx, sshd, postgres), you do NOT need `nohup`/`disown`. Their start command (e.g. `apache2ctl start`) forks into the background and returns immediately. Don't double-background them — you'll just confuse your debugging later.
+
+#### 4.6.3 Service ordering
+
+Start dependencies before the things that depend on them. The classic example is a reverse-proxy + backend setup:
+
+```bash
+# Start backend first
+nohup python3 /opt/myapp.py >/tmp/myapp.log 2>&1 &
+disown 2>/dev/null || true
+sleep 2     # let Flask bind 127.0.0.1:5000
+
+# Then the reverse proxy
+sudo apache2ctl start
+```
+
+If you flip the order, Apache may briefly see "connection refused" from the backend on its first proxied request, returning a 503 to the user before the backend is up. With this order, by the time Apache starts accepting requests the backend is already listening.
+
+You can be smarter than `sleep 2` if you want — poll the port until it shows up, then proceed:
+
+```bash
+for i in {1..20}; do
+    ss -ltn 2>/dev/null | grep -q ':5000 ' && break
+    sleep 0.5
+done
+```
+
+For most labs this is overkill; `sleep 2` is enough.
+
+#### 4.6.4 Permissions: which services need sudo
+
+The init script has temporary sudo (per Section 7.3). Use it only for things that genuinely need root:
+
+- Starting services that read root-owned config (e.g. `apache2ctl start` reads `/etc/apache2/`).
+- Writing to `/etc/*` config directories during setup.
+- Touching `/var/log` files.
+- Binding privileged ports below 1024 (rare in BodhiLabs labs since the platform exposes ports >= 30000 anyway).
+
+Run application backends WITHOUT sudo when possible. A Flask app on `127.0.0.1:5000` needs no privileges — bind a non-priv port, write logs to `/tmp`, done. Running it as `student` keeps the surface area honest: if the lab is supposed to teach a web vulnerability, the backend running as a normal user is closer to reality than running as root.
+
+The init script revokes sudo at the end (Section 7.3 lockdown step). After that point, the student CANNOT restart the services. If they kill them, they're stuck. This is fine in practice — the lab is mostly read-only once it's running, and a broken lab is a request for the student to reset the activity (which restarts the container and re-runs init from a clean state).
+
+#### 4.6.5 Logs: send everything to /tmp
+
+Send all service logs and all init logs to `/tmp`:
+
+```bash
+# Init's own log
+INIT_LOG=/tmp/lab_init.log
+echo "[$(date)] init start" > "$INIT_LOG"
+
+# App logs
+nohup python3 /opt/myapp.py >/tmp/myapp.log 2>&1 &
+
+# Apache start log
+sudo apache2ctl start >>"$INIT_LOG" 2>&1
+```
+
+Why `/tmp`:
+- Always writable by every user. No surprises.
+- Survives until the container restarts, which is exactly the right TTL for debugging.
+- The student can `tail -f /tmp/*.log` if your lab expects them to read service output (e.g. a WAF audit log they're learning to interpret).
+
+For service-specific log files that the application writes itself (mod_security audit log, Flask access log when run via gunicorn, etc.), configure them to go to `/tmp` explicitly:
+
+```bash
+# Example: redirect mod_security's audit log to /tmp
+sudo sed -i 's|^SecAuditLog .*|SecAuditLog /tmp/modsec_audit.log|' /etc/modsecurity/modsecurity.conf
+sudo touch /tmp/modsec_audit.log
+sudo chmod 666 /tmp/modsec_audit.log
+```
+
+The `chmod 666` here is important and worth understanding: Apache (running as `www-data` after privilege drop) needs to APPEND to this file, AND the student (running as `student`) needs to READ it. The default `/var/log` paths don't grant both — `666` on a `/tmp` file is the only setup that makes both work without ACL gymnastics or adding `student` to the `adm` group.
+
+#### 4.6.6 Idempotency: handle reruns of init.sh
+
+`initactivity.sh` may be invoked more than once over a container's life. The student might reset the activity, the LMS might restart the container, or you might re-run it during debugging. The init script must not leave duplicate services running on every invocation.
+
+Always kill previous instances before starting fresh:
+
+```bash
+sudo apache2ctl stop 2>/dev/null || true
+pkill -f myapp.py 2>/dev/null || true
+sleep 1
+# now start fresh services below
+```
+
+The `2>/dev/null || true` swallows errors from "no such process" / "service not running" on the first run. This is critical — without it, you'd get "address already in use" errors on every restart and the activity would silently break (nothing listening on the expected port, but no obvious error message either).
+
+For Python/Node services launched with `nohup`, `pkill -f <script-name>` is the simplest way to identify them. Be specific with the pattern — `pkill -f python3` would also kill anything else Python running in the container.
+
+#### 4.6.7 Verifying services are up
+
+End the init script with a verification block that writes port state to the init log. This pays for itself the first time a lab silently breaks on the platform:
+
+```bash
+sleep 2
+echo "[$(date)] services up:" >> "$INIT_LOG"
+ss -ltn 2>/dev/null | grep -E '5000|30000' >> "$INIT_LOG" || \
+    netstat -ltn 2>/dev/null | grep -E '5000|30000' >> "$INIT_LOG" || true
+```
+
+If you SSH (or `docker exec`) into a misbehaving lab container later, `cat $INIT_LOG` immediately tells you whether services bound their ports at startup. The fallback to `netstat` covers older base images where `ss` isn't installed. The `|| true` at the end keeps the init script exiting cleanly even if both tools are missing.
+
+#### 4.6.8 Service-specific notes
+
+**Apache.** Configure listen port via `ports.conf`, enable required mods with `a2enmod`, install vhost via `a2ensite`. Start with `apache2ctl start` (daemonizes itself, no `nohup` needed). For mod_security: don't include your custom rule file in BOTH `/etc/modsecurity/` AND `/etc/apache2/conf-available/` — the `security2.conf` already does `IncludeOptional /etc/modsecurity/*.conf`, so a second include causes duplicate rule IDs and Apache refuses to start.
+
+**Flask (Werkzeug dev server).** The base image typically ships Flask 1.x with Jinja2 3.x, which mismatches because Jinja2 3.x removed the legacy `escape`/`Markup` symbols. You need a small compat shim at the top of your app:
+
+```python
+try:
+    import jinja2
+    import jinja2.ext as _j2ext
+    from markupsafe import Markup as _ms_markup, escape as _ms_escape
+    if not hasattr(jinja2, "escape"):
+        jinja2.escape = _ms_escape
+    if not hasattr(jinja2, "Markup"):
+        jinja2.Markup = _ms_markup
+    if not hasattr(_j2ext, "autoescape"):
+        class _Compat: pass
+        _j2ext.autoescape = _Compat
+    if not hasattr(_j2ext, "with_"):
+        class _Compat2: pass
+        _j2ext.with_ = _Compat2
+except Exception:
+    pass
+
+from flask import Flask
+app = Flask(__name__)
+try:
+    app.jinja_options = dict(app.jinja_options)
+    app.jinja_options["extensions"] = []
+except Exception:
+    pass
+```
+
+Without this, Flask fails on import with `ImportError: cannot import name 'escape' from 'jinja2'`. Both LAB-G and LAB B1 hit this; copy the shim verbatim into any new Flask-based lab.
+
+**Java services (ZAP via WebSwing).** Force a JDK 17 runtime even if the base image has multiple JDKs installed (ZAP is built against class file version 61, which JDK 11 cannot load — see Section 7.10 for the exact failure mode and fix).
+
+#### 4.6.9 Putting it all together: full multi-service init template
+
+```bash
+#!/bin/bash
+# initactivity.sh - multi-service template
+# Do NOT use `set -e` - we handle failures manually so init still exits cleanly.
+
+LAB_DIR="/home/labDirectory"
+EVAL_DIR="/home/.evaluationScripts"
+INIT_DIR="$EVAL_DIR/activityInitiator"
+APP_DIR="/opt/myapp"
+INIT_LOG="/tmp/lab_init.log"
+
+echo "[$(date)] init start" > "$INIT_LOG"
+
+# ── PART 1: Infrastructure & permissions (always do this first)
+sudo chmod 755 "$EVAL_DIR" "$INIT_DIR" 2>/dev/null || true
+sudo chmod 666 "$EVAL_DIR/evaluate.json" 2>/dev/null || true
+sudo chown -R student:student "$LAB_DIR" 2>/dev/null || true
+
+# Submission files: created at runtime so the LMS doesn't mark them read-only.
+for f in flag.txt; do
+    rm -f "$LAB_DIR/$f" 2>/dev/null || true
+    : > "$LAB_DIR/$f"
+    sudo chown student:student "$LAB_DIR/$f" 2>/dev/null || true
+    sudo chmod 666 "$LAB_DIR/$f" 2>/dev/null || true
+done
+
+# ── PART 2: Deploy app code
+sudo mkdir -p "$APP_DIR"
+sudo cp "$INIT_DIR/myapp.py" "$APP_DIR/myapp.py"
+sudo chmod 755 "$APP_DIR/myapp.py"
+
+# ── PART 3: Service config (Apache vhost, modsec rules, etc.)
+sudo cp "$INIT_DIR/myapp_site.conf" /etc/apache2/sites-available/
+sudo a2ensite myapp_site >/dev/null 2>&1 || true
+sudo a2enmod rewrite proxy proxy_http >/dev/null 2>&1 || true
+echo "Listen 30000" | sudo tee /etc/apache2/ports.conf >/dev/null
+
+# ── PART 4: Idempotency - kill anything left from a previous run
+sudo apache2ctl stop 2>/dev/null || true
+pkill -f myapp.py 2>/dev/null || true
+sleep 1
+
+# ── PART 5: Start services in dependency order
+nohup python3 "$APP_DIR/myapp.py" >/tmp/myapp.log 2>&1 &
+disown 2>/dev/null || true
+sleep 2
+
+sudo apache2ctl start >>"$INIT_LOG" 2>&1
+
+# ── PART 6: Verify (writes port state to init log for debugging)
+sleep 2
+echo "[$(date)] ports listening:" >> "$INIT_LOG"
+ss -ltn 2>/dev/null | grep -E '5000|30000' >> "$INIT_LOG" || \
+    netstat -ltn 2>/dev/null | grep -E '5000|30000' >> "$INIT_LOG" || true
+
+# ── PART 7: Lockdown - revoke sudo so students can't tamper
+sudo rm -f /etc/sudoers.d/student_temp
+
+echo "[$(date)] init complete" >> "$INIT_LOG"
+exit 0
+```
+
+Reuse this template whenever a lab needs more than one process running. The structural choices (PART 1 first, idempotent restarts, /tmp for everything, verify-then-lockdown) are what make multi-service labs reliable across the LMS' inconsistencies described in Section 7.
 
 ---
 
@@ -1320,6 +1587,7 @@ echo "[+] Activity 2 Initialization Complete."
 ### Pre-Development
 
 - [ ] Understand lab objectives and student workflow
+- [ ] Decide on the activity name (short, precise — used as the LMS activity title)
 - [ ] Identify required packages and tools
 - [ ] Check tool compatibility (ltrace, strace, etc.)
 - [ ] Plan file structure
@@ -1331,8 +1599,14 @@ echo "[+] Activity 2 Initialization Complete."
 - [ ] Write initactivity.sh (infrastructure first pattern)
 - [ ] Write evaluate.sh (copy to /tmp pattern)
 - [ ] Write autograder.py (correct JSON format)
-- [ ] Write student README.md
 - [ ] Ensure submission files are NOT in tarball
+
+### Documentation
+
+- [ ] Write README.md (instructor overview, at activity root)
+- [ ] Write WALKTHROUGH.md (instructor solution path, at activity root)
+- [ ] Write activity_guide.md (student-facing pedagogical doc, at activity root)
+- [ ] Verify all three docs live at activity root, NOT inside labDirectory/ or .evaluationScripts/
 
 ### Packaging
 
